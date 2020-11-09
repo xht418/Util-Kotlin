@@ -1,5 +1,9 @@
 package com.example.utlikotlin
 
+import android.widget.EditText
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+
 object DataBindingUtil {
     @BindingAdapter("android:text", "isAddCase")
     @JvmStatic
