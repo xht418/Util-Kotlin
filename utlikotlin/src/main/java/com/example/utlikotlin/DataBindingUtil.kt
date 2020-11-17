@@ -3,6 +3,7 @@ package com.example.utlikotlin
 import android.content.res.TypedArray
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 
@@ -21,5 +22,11 @@ object DataBindingUtil {
     @JvmStatic
     fun setImageResource(imageView: ImageView, imageIndex: Int, images: TypedArray) {
         imageView.setImageResource(images.getResourceId(imageIndex, 0))
+    }
+
+    @BindingAdapter("wordIndex", "words")
+    @JvmStatic
+    fun setText(textView: TextView, wordIndex: Int, words: Array<String>) {
+        textView.text = words[wordIndex]
     }
 }
