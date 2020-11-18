@@ -29,4 +29,12 @@ object DataBindingUtil {
     fun setText(textView: TextView, wordIndex: Int, words: Array<String>) {
         textView.text = words[wordIndex]
     }
+
+    @BindingAdapter("label", "wordIndex", "words")
+    @JvmStatic
+    fun setText(textView: TextView, label: String, wordIndex: Int, words: Array<String>) {
+        val text = "$label: ${words[wordIndex]}"
+
+        textView.text = text
+    }
 }
