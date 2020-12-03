@@ -6,6 +6,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.button.MaterialButtonToggleGroup
 
 object DataBindingUtil {
     @BindingAdapter("android:text", "isAddCase")
@@ -36,5 +38,19 @@ object DataBindingUtil {
         val text = "$label: ${words[wordIndex]}"
 
         textView.text = text
+    }
+
+    @BindingAdapter("checkedIndex")
+    @JvmStatic
+    fun setChecked(toggleGroup: MaterialButtonToggleGroup, checkedIndex: Int) {
+        (toggleGroup.getChildAt(checkedIndex) as MaterialButton).isChecked = true
+    }
+
+    @BindingAdapter("checkedIndexes")
+    @JvmStatic
+    fun setChecked(toggleGroup: MaterialButtonToggleGroup, checkedIndexes: List<Int>) {
+        checkedIndexes.forEach {
+            (toggleGroup.getChildAt(it) as MaterialButton).isChecked = true
+        }
     }
 }
