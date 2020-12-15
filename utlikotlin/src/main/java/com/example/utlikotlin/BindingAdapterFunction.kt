@@ -4,8 +4,10 @@ import android.content.res.TypedArray
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 
@@ -43,5 +45,14 @@ fun setChecked(toggleGroup: MaterialButtonToggleGroup, checkedIndex: Int) {
 fun setChecked(toggleGroup: MaterialButtonToggleGroup, checkedIndexes: List<Int>) {
     checkedIndexes.forEach {
         (toggleGroup.getChildAt(it) as MaterialButton).isChecked = true
+    }
+}
+
+@BindingAdapter("imageUrl")
+fun setImageResource(imageView: ImageView, imageUrl: String?) {
+    imageUrl?.let {
+        val uri = it.toUri().buildUpon().scheme("https").build()
+
+        Glide.with(imageView.context).load(uri).into(imageView)
     }
 }
