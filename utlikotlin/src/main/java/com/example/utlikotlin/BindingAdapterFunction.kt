@@ -76,6 +76,6 @@ fun setImageResource(imageView: ImageView, imageUrl: String?, placeHolderImage: 
 }
 
 @BindingAdapter("data")
-fun <T> setData(recyclerView: RecyclerView, data: List<T>) {
+fun <T> setData(recyclerView: RecyclerView, data: List<T>?) {
     (recyclerView.adapter as ListAdapter<T, RecyclerView.ViewHolder>).submitList(data)
 }
