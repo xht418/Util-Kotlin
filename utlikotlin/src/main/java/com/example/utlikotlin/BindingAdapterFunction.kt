@@ -1,6 +1,7 @@
 package com.example.utlikotlin
 
 import android.content.res.TypedArray
+import android.graphics.drawable.Drawable
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -61,7 +62,7 @@ fun setImageResource(imageView: ImageView, imageUrl: String?) {
 }
 
 @BindingAdapter("imageUrl", "placeHolderImage", "errorImage")
-fun setImageResource(imageView: ImageView, imageUrl: String?, placeHolderImage: Int, errorImage: Int) {
+fun setImageResource(imageView: ImageView, imageUrl: String?, placeHolderImage: Drawable, errorImage: Drawable) {
     imageUrl?.let {
         val uri = it.toUri().buildUpon().scheme("https").build()
 
