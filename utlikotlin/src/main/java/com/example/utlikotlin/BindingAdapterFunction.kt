@@ -7,7 +7,10 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 
@@ -55,4 +58,23 @@ fun setImageResource(imageView: ImageView, imageUrl: String?) {
 
         Glide.with(imageView.context).load(uri).into(imageView)
     }
+}
+
+@BindingAdapter("imageUrl", "placeHolderImage", "errorImage")
+fun setImageResource(imageView: ImageView, imageUrl: String?, placeHolderImage: Int, errorImage: Int) {
+    imageUrl?.let {
+        val uri = it.toUri().buildUpon().scheme("https").build()
+
+        Glide.with(imageView.context)
+                .load(uri)
+                .apply(RequestOptions()
+                        .placeholder(placeHolderImage)
+                        .error(errorImage))
+                .into(imageView)
+    }
+}
+
+@BindingAdapter("data")
+fun <T> setData(recyclerView: RecyclerView, data: List<T>) {
+    (recyclerView.adapter as ListAdapter<T, RecyclerView.ViewHolder>).submitList(data)
 }
