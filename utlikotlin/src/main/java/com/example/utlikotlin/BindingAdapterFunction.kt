@@ -2,6 +2,7 @@ package com.example.utlikotlin
 
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -78,4 +79,23 @@ fun setImageResource(imageView: ImageView, imageUrl: String?, placeHolderImage: 
 @BindingAdapter("data")
 fun <T> setData(recyclerView: RecyclerView, data: List<T>?) {
     (recyclerView.adapter as ListAdapter<T, RecyclerView.ViewHolder>).submitList(data)
+}
+
+@BindingAdapter("loadingStatus", "loadingImage", "errorImage")
+fun setImageResource(imageView: ImageView, loadingStatus: LoadingStatus?, loadingImage: Drawable, errorImage: Drawable) {
+    when (loadingStatus) {
+        LoadingStatus.LOADING -> {
+            imageView.visibility = View.VISIBLE
+            imageView.setImageDrawable(loadingImage)
+        }
+
+        LoadingStatus.ERROR -> {
+            imageView.visibility = View.VISIBLE
+            imageView.setImageDrawable(errorImage)
+        }
+
+        LoadingStatus.DONE -> {
+            imageView.visibility = View.GONE
+        }
+    }
 }
