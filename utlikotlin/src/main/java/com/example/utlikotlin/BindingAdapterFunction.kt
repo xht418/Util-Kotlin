@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -79,6 +80,13 @@ fun setImageResource(imageView: ImageView, imageUrl: String?, placeHolderImage: 
 @BindingAdapter("data")
 fun <T> setData(recyclerView: RecyclerView, data: List<T>?) {
     (recyclerView.adapter as ListAdapter<T, RecyclerView.ViewHolder>).submitList(data)
+}
+
+@BindingAdapter("isShowDivider")
+fun setDivider(recyclerView: RecyclerView, isShowDivider: Boolean) {
+    if (isShowDivider) {
+        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
+    }
 }
 
 @BindingAdapter("loadingStatus", "loadingImage", "errorImage")
