@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
+import androidx.cardview.widget.CardView
 
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
@@ -23,4 +24,13 @@ fun View.scale(value: Float, duration: Long) {
     animator.duration = duration
 
     animator.start()
+}
+
+fun CardView.mapColor(arrayResourceId: Int, colorIndex: Int) {
+    val colors = resources.obtainTypedArray(arrayResourceId)
+    val color = this.context.getColor(colors.getResourceId(colorIndex, 0))
+
+    this.setCardBackgroundColor(color)
+
+    colors.recycle()
 }
