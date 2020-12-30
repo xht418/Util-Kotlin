@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import androidx.cardview.widget.CardView
 
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
@@ -33,4 +34,12 @@ fun CardView.mapColor(arrayResourceId: Int, colorIndex: Int) {
     this.setCardBackgroundColor(color)
 
     colors.recycle()
+}
+
+fun PopupWindow.build(contentView: View): PopupWindow {
+    this.contentView = contentView
+    this.isOutsideTouchable = true
+    this.setBackgroundDrawable(null)
+
+    return this
 }
