@@ -2,10 +2,9 @@ package com.example.utlikotlin
 
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
@@ -105,5 +104,25 @@ fun setImageResource(imageView: ImageView, loadingStatus: LoadingStatus?, loadin
         LoadingStatus.DONE -> {
             imageView.visibility = View.GONE
         }
+    }
+}
+
+@BindingAdapter("video")
+fun setVideoResource(videoView: VideoView, resourceId: Int) {
+    val videoUri = Uri.parse("android.resource://${videoView.context.packageName}/$resourceId")
+
+    videoView.setVideoURI(videoUri)
+    videoView.setMediaController(MediaController(videoView.context))
+    videoView.seekTo(1)
+}
+
+@BindingAdapter("videoUrl")
+fun setVideoResource(videoView: VideoView, videoUrl: String?) {
+    videoUrl?.let {
+        val videoUri = Uri.parse(videoUrl)
+
+        videoView.setVideoURI(videoUri)
+        videoView.setMediaController(MediaController(videoView.context))
+        videoView.seekTo(1)
     }
 }
