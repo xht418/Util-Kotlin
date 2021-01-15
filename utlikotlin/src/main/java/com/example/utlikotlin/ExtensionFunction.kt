@@ -10,6 +10,8 @@ import androidx.cardview.widget.CardView
 
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
+fun Float.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
+
 fun <T> List<T>.range(fromIndex: Int, toIndex: Int) = this.subList(fromIndex, toIndex + 1)
 
 fun Int.dp(context: Context) = this * context.resources.displayMetrics.density
