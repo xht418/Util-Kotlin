@@ -4,6 +4,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 class DragSortHelper(items: List<ListItem>, dragDirection: Int, dropAction: (List<ListItem>) -> Unit) {
+    companion object {
+        const val HORIZONTAL = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        const val VERTICAL = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        const val ALL = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN
+    }
+
     private val itemTouchHelper: ItemTouchHelper
 
     init {
