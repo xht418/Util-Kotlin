@@ -6,7 +6,9 @@ import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.navigation.fragment.NavHostFragment
 
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
@@ -45,3 +47,5 @@ fun PopupWindow.build(contentView: View): PopupWindow {
 
     return this
 }
+
+fun AppCompatActivity.getNavHostFragmentById(id: Int) = supportFragmentManager.findFragmentById(id) as NavHostFragment
