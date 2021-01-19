@@ -17,5 +17,5 @@ object RetrofitHelper {
             .build()
     }
 
-    fun <T> get(baseUrl: String, apiInterface: Class<T>) = getRetrofit(baseUrl).create(apiInterface)
+    fun <T> create(baseUrl: String, apiInterface: Class<T>) = getRetrofit(baseUrl).create(apiInterface)
 }
