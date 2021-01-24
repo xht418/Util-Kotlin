@@ -68,11 +68,12 @@ fun setImageResource(imageView: ImageView, imageUrl: String?, placeHolderImage: 
         val uri = it.toUri().buildUpon().scheme("https").build()
 
         Glide.with(imageView.context)
-                .load(uri)
-                .apply(RequestOptions()
-                        .placeholder(placeHolderImage)
-                        .error(errorImage))
-                .into(imageView)
+            .load(uri)
+            .apply(
+                RequestOptions()
+                    .placeholder(placeHolderImage)
+                    .error(errorImage)
+            ).into(imageView)
     }
 }
 
@@ -125,4 +126,13 @@ fun setVideoResource(videoView: VideoView, videoUrl: String?) {
         videoView.setMediaController(MediaController(videoView.context))
         videoView.seekTo(1)
     }
+}
+
+@BindingAdapter("divider")
+fun setDividerResource(recyclerView: RecyclerView, image: Drawable) {
+    val dividerDecoration = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
+
+    dividerDecoration.setDrawable(image)
+
+    recyclerView.addItemDecoration(dividerDecoration)
 }
