@@ -9,6 +9,7 @@ import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.navigation.fragment.NavHostFragment
+import java.io.OutputStream
 import java.lang.StringBuilder
 import java.nio.charset.Charset
 
@@ -52,14 +53,6 @@ fun PopupWindow.build(contentView: View): PopupWindow {
 
 fun AppCompatActivity.getNavHostFragmentById(id: Int) = supportFragmentManager.findFragmentById(id) as NavHostFragment
 
-fun String.repeat(times: Int): String {
-    val builder = StringBuilder()
-
-    repeat(times) {
-        builder.append(this)
-    }
-
-    return builder.toString()
-}
-
 fun String.toBytes() = this.toByteArray(Charset.forName("GBK"))
+
+fun OutputStream.write(text: String) = this.write(text.toBytes())
