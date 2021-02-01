@@ -56,3 +56,5 @@ fun AppCompatActivity.getNavHostFragmentById(id: Int) = supportFragmentManager.f
 fun String.toBytes() = this.toByteArray(Charset.forName("GBK"))
 
 fun OutputStream.write(text: String) = this.write(text.toBytes())
+
+fun OutputStream.writeln(text: String) = this.write("$text\n".toBytes())
