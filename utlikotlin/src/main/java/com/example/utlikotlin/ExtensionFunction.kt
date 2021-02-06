@@ -3,6 +3,7 @@ package com.example.utlikotlin
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.content.Context
+import android.graphics.Bitmap
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupWindow
@@ -58,3 +59,7 @@ fun String.toBytes() = this.toByteArray(Charset.forName("GBK"))
 fun OutputStream.write(text: String) = this.write(text.toBytes())
 
 fun OutputStream.writeln(text: String) = this.write("$text\n".toBytes())
+
+fun Bitmap.toEscBytes() = EscBitmapHelper.getBytes(this)
+
+fun OutputStream.write(bitmap: Bitmap) = this.write(bitmap.toEscBytes())
