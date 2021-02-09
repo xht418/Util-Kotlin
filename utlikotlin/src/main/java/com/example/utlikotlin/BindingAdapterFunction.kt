@@ -1,6 +1,7 @@
 package com.example.utlikotlin
 
 import android.content.res.TypedArray
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
@@ -135,4 +136,17 @@ fun setDividerResource(recyclerView: RecyclerView, image: Drawable) {
     dividerDecoration.setDrawable(image)
 
     recyclerView.addItemDecoration(dividerDecoration)
+}
+
+@BindingAdapter("imageUri")
+fun setImageResource(imageView: ImageView, imageUri: Uri?) {
+    imageUri?.let { uri ->
+        val inputStream = imageView.context.contentResolver.openInputStream(uri)
+
+        inputStream.use {
+            val bitmap = BitmapFactory.decodeStream(it)
+
+            imageView.setImageBitmap(bitmap)
+        }
+    }
 }
