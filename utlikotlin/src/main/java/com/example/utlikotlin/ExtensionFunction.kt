@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupWindow
@@ -85,12 +86,19 @@ fun Fragment.pickAndSavePhoto(requestCode: Int) {
 }
 
 fun Uri.toBitmap(context: Context): Bitmap? {
-    val inputStream = context.contentResolver.openInputStream(this)
-    var bitmap: Bitmap? = null
+    val bitmap: Bitmap
 
-    inputStream?.use {
-        bitmap = BitmapFactory.decodeStream(it)
+    return try {
+        val inputStream = context.contentResolver.openInputStream(this)
+
+        inputStream.use {
+            bitmap = BitmapFactory.decodeStream(it)
+        }
+
+        bitmap
+    } catch (e: Exception) {
+        Log.e("Uri.toBitmap()", "Image not found.")
+
+        null
     }
-
-    return bitmap
 }
