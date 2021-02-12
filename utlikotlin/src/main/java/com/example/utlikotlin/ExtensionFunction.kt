@@ -5,6 +5,8 @@ import android.animation.PropertyValuesHolder
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupWindow
@@ -80,4 +82,15 @@ fun Fragment.pickAndSavePhoto(requestCode: Int) {
     intent.type = "image/*"
 
     startActivityForResult(intent, requestCode)
+}
+
+fun Uri.toBitmap(context: Context): Bitmap? {
+    val inputStream = context.contentResolver.openInputStream(this)
+    var bitmap: Bitmap? = null
+
+    inputStream?.use {
+        bitmap = BitmapFactory.decodeStream(it)
+    }
+
+    return bitmap
 }
