@@ -140,13 +140,7 @@ fun setDividerResource(recyclerView: RecyclerView, image: Drawable) {
 
 @BindingAdapter("imageUri")
 fun setImageResource(imageView: ImageView, imageUri: Uri?) {
-    imageUri?.let { uri ->
-        val inputStream = imageView.context.contentResolver.openInputStream(uri)
-
-        inputStream.use {
-            val bitmap = BitmapFactory.decodeStream(it)
-
-            imageView.setImageBitmap(bitmap)
-        }
+    imageUri?.toBitmap(imageView.context)?.let {
+        imageView.setImageBitmap(it)
     }
 }
