@@ -9,10 +9,13 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import java.io.OutputStream
@@ -27,7 +30,7 @@ fun <T> List<T>.range(fromIndex: Int, toIndex: Int) = this.subList(fromIndex, to
 
 fun Int.dp(context: Context) = this * context.resources.displayMetrics.density
 
-fun View.indexOfParent() = (this.parent as LinearLayout).indexOfChild(this)
+fun View.indexOfParent() = (this.parent as ViewGroup).indexOfChild(this)
 
 fun View.scale(value: Float, duration: Long) {
     val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, value)
@@ -101,4 +104,16 @@ fun Uri.toBitmap(context: Context): Bitmap? {
 
         null
     }
+}
+
+fun ViewGroup.getCheckedIndexes(): List<Int> {
+    val checkedIndexes = mutableListOf<Int>()
+
+    this.forEachIndexed { index, view ->
+        if ((view as CompoundButton).isChecked) {
+            checkedIndexes.add(index)
+        }
+    }
+
+    return checkedIndexes
 }
