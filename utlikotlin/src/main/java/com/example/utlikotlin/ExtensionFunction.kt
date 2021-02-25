@@ -127,3 +127,5 @@ fun View.isTouched(motionEvent: MotionEvent): Boolean {
 
     return rect.contains(motionEvent.rawX.toInt(), motionEvent.rawY.toInt())
 }
+
+fun PopupWindow.showAsAbove(anchorView: View) = this.showAsDropDown(anchorView, 0, -anchorView.height * 4)
