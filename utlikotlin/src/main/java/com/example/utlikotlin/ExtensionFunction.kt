@@ -6,8 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Rect
 import android.net.Uri
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
@@ -116,4 +118,12 @@ fun ViewGroup.getCheckedIndexes(): List<Int> {
     }
 
     return checkedIndexes
+}
+
+fun View.isTouched(motionEvent: MotionEvent): Boolean {
+    val rect = Rect()
+
+    this.getGlobalVisibleRect(rect)
+
+    return rect.contains(motionEvent.rawX.toInt(), motionEvent.rawY.toInt())
 }
