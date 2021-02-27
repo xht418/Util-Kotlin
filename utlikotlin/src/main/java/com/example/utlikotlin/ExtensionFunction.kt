@@ -57,6 +57,7 @@ fun CardView.mapColor(arrayResourceId: Int, colorIndex: Int) {
 fun PopupWindow.build(contentView: View): PopupWindow {
     this.contentView = contentView
     this.isOutsideTouchable = true
+    this.isFocusable = true
     this.setBackgroundDrawable(null)
 
     return this
