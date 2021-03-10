@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.util.Log
 import android.view.MotionEvent
@@ -130,3 +131,5 @@ fun View.isTouched(motionEvent: MotionEvent): Boolean {
 }
 
 fun PopupWindow.showAsAbove(anchorView: View) = this.showAsDropDown(anchorView, 0, -anchorView.height * 4)
+
+fun Fragment.getConnectivityManager() = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
