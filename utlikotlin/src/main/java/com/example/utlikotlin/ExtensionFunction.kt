@@ -133,3 +133,5 @@ fun View.isTouched(motionEvent: MotionEvent): Boolean {
 fun PopupWindow.showAsAbove(anchorView: View) = this.showAsDropDown(anchorView, 0, -anchorView.height * 4)
 
 fun Fragment.getConnectivityManager() = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+fun Fragment.getFragmentById(id: Int) = childFragmentManager.findFragmentById(id)
