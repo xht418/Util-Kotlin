@@ -21,6 +21,10 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import java.io.OutputStream
 import java.lang.StringBuilder
 import java.nio.charset.Charset
@@ -135,3 +139,23 @@ fun PopupWindow.showAsAbove(anchorView: View) = this.showAsDropDown(anchorView, 
 fun Fragment.getConnectivityManager() = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 fun Fragment.getFragmentById(id: Int) = childFragmentManager.findFragmentById(id)
+
+fun Fragment.requestGPSOn(requestCode: Int) {
+    val locationRequest = LocationRequest.create().apply {
+        priority = LocationRequest.PRIORITY_LOW_POWER
+    }
+
+    val settingRequest = LocationSettingsRequest.Builder().run {
+        addLocationRequest(locationRequest)
+        build()
+    }
+
+    val settingsClient = LocationServices.getSettingsClient(requireContext())
+    val checkTask = settingsClient.checkLocationSettings(settingRequest)
+
+    checkTask.addOnFailureListener {
+        val intentSender = (it as ResolvableApiException).resolution.intentSender
+
+        startIntentSenderForResult(intentSender, requestCode, null, 0, 0, 0, null)
+    }
+}
