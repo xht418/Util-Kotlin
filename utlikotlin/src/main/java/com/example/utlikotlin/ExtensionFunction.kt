@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.LinearLayout
 import android.widget.PopupWindow
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.forEachIndexed
@@ -25,6 +26,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.material.snackbar.Snackbar
 import java.io.OutputStream
 import java.lang.StringBuilder
 import java.nio.charset.Charset
@@ -158,4 +160,18 @@ fun Fragment.requestGPSOn(requestCode: Int) {
 
         startIntentSenderForResult(intentSender, requestCode, null, 0, 0, 0, null)
     }
+}
+
+fun Fragment.showToast(text: String) = Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+
+fun Fragment.showToast(resourceId: Int) = Toast.makeText(requireContext(), resourceId, Toast.LENGTH_SHORT).show()
+
+fun Fragment.showToastLong(text: String) = Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
+
+fun Fragment.showToastLong(resourceId: Int) = Toast.makeText(requireContext(), resourceId, Toast.LENGTH_LONG).show()
+
+fun Fragment.showSnackbar(text: String) {
+    val view = requireActivity().findViewById<View>(android.R.id.content)
+
+    Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show()
 }
