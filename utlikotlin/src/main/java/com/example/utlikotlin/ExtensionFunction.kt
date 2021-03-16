@@ -2,6 +2,7 @@ package com.example.utlikotlin
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.AndroidViewModel
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
@@ -174,4 +176,10 @@ fun Fragment.showSnackbar(text: String) {
     val view = requireActivity().findViewById<View>(android.R.id.content)
 
     Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show()
+}
+
+fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
+    return getApplication<Application>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 }
