@@ -63,13 +63,12 @@ fun CardView.mapColor(arrayResourceId: Int, colorIndex: Int) {
     colors.recycle()
 }
 
-fun PopupWindow.build(contentView: View): PopupWindow {
-    this.contentView = contentView
-    this.isOutsideTouchable = true
-    this.isFocusable = true
-    this.setBackgroundDrawable(null)
+fun PopupWindow.build(contentView: View) = this.apply {
+    setContentView(contentView)
+    setBackgroundDrawable(null)
 
-    return this
+    isOutsideTouchable = true
+    isFocusable = true
 }
 
 fun AppCompatActivity.getNavHostFragmentById(id: Int) = supportFragmentManager.findFragmentById(id) as NavHostFragment

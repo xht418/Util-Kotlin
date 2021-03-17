@@ -11,12 +11,10 @@ object RetrofitHelper {
         build()
     }
 
-    private fun getRetrofit(baseUrl: String): Retrofit {
-        return Retrofit.Builder().run {
-            addConverterFactory(MoshiConverterFactory.create(moshi))
-            baseUrl(baseUrl)
-            build()
-        }
+    private fun getRetrofit(baseUrl: String) = Retrofit.Builder().run {
+        addConverterFactory(MoshiConverterFactory.create(moshi))
+        baseUrl(baseUrl)
+        build()
     }
 
     fun <T> create(baseUrl: String, apiInterface: Class<T>) = getRetrofit(baseUrl).create(apiInterface)

@@ -67,14 +67,12 @@ fun setImageResource(imageView: ImageView, imageUrl: String?) {
 fun setImageResource(imageView: ImageView, imageUrl: String?, placeHolderImage: Drawable, errorImage: Drawable) {
     imageUrl?.let {
         val uri = it.toUri().buildUpon().scheme("https").build()
+        val options = RequestOptions().placeholder(placeHolderImage).error(errorImage)
 
-        Glide.with(imageView.context)
-            .load(uri)
-            .apply(
-                RequestOptions()
-                    .placeholder(placeHolderImage)
-                    .error(errorImage)
-            ).into(imageView)
+        Glide.with(imageView.context).load(uri).apply {
+            apply(options)
+            into(imageView)
+        }
     }
 }
 
@@ -111,29 +109,33 @@ fun setImageResource(imageView: ImageView, loadingStatus: LoadingStatus?, loadin
 
 @BindingAdapter("video")
 fun setVideoResource(videoView: VideoView, resourceId: Int) {
-    val videoUri = Uri.parse("android.resource://${videoView.context.packageName}/$resourceId")
+    val videoUri = "android.resource://${videoView.context.packageName}/$resourceId".toUri()
 
-    videoView.setVideoURI(videoUri)
-    videoView.setMediaController(MediaController(videoView.context))
-    videoView.seekTo(1)
+    videoView.apply {
+        setVideoURI(videoUri)
+        setMediaController(MediaController(videoView.context))
+        seekTo(1)
+    }
 }
 
 @BindingAdapter("videoUrl")
 fun setVideoResource(videoView: VideoView, videoUrl: String?) {
     videoUrl?.let {
-        val videoUri = Uri.parse(videoUrl)
+        val videoUri = videoUrl.toUri()
 
-        videoView.setVideoURI(videoUri)
-        videoView.setMediaController(MediaController(videoView.context))
-        videoView.seekTo(1)
+        videoView.apply {
+            setVideoURI(videoUri)
+            setMediaController(MediaController(videoView.context))
+            seekTo(1)
+        }
     }
 }
 
 @BindingAdapter("divider")
 fun setDividerResource(recyclerView: RecyclerView, image: Drawable) {
-    val dividerDecoration = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
-
-    dividerDecoration.setDrawable(image)
+    val dividerDecoration = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL).apply {
+        setDrawable(image)
+    }
 
     recyclerView.addItemDecoration(dividerDecoration)
 }
