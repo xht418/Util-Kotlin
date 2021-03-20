@@ -3,6 +3,7 @@ package com.example.utlikotlin
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Application
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,6 +12,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
@@ -194,3 +197,23 @@ fun Fragment.isAllPermissionsGranted(permissions: Array<String>) = permissions.a
 fun Intent.isResolvable(context: Context) = resolveActivity(context.packageManager) != null
 
 fun Long.format(pattern: String) = SimpleDateFormat(pattern, Locale.getDefault()).format(this)
+
+fun Fragment.getImageUri(fileName: String, folderName: String): Uri {
+    val values = ContentValues().apply {
+        put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+        put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+        put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/$folderName")
+    }
+
+    return requireContext().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
+}
+
+fun Fragment.deleteImage(imageUri: Uri) = requireContext().contentResolver.delete(imageUri, null, null)
+
+fun Fragment.takeAndSavePicture(requestCode: Int, imageUri: Uri) {
+    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+
+    startActivityForResult(intent, requestCode)
+}
