@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
@@ -20,6 +21,7 @@ import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
@@ -32,6 +34,8 @@ import com.google.android.material.snackbar.Snackbar
 import java.io.OutputStream
 import java.lang.StringBuilder
 import java.nio.charset.Charset
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
@@ -182,3 +186,11 @@ fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SER
 fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
     return getApplication<Application>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 }
+
+fun Fragment.isAllPermissionsGranted(permissions: Array<String>) = permissions.all {
+    ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
+}
+
+fun Intent.isResolvable(context: Context) = resolveActivity(context.packageManager) != null
+
+fun Long.format(pattern: String) = SimpleDateFormat(pattern, Locale.getDefault()).format(this)
