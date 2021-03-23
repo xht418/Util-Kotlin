@@ -217,3 +217,9 @@ fun Fragment.takeAndSavePicture(requestCode: Int, imageUri: Uri) {
 
     startActivityForResult(intent, requestCode)
 }
+
+fun Fragment.openApp(packageName: String) {
+    val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
+
+    startActivity(intent)
+}
