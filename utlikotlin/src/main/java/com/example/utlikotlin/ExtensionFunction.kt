@@ -25,6 +25,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
@@ -222,4 +223,21 @@ fun Fragment.openApp(packageName: String) {
     val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
 
     startActivity(intent)
+}
+
+fun Fragment.getRawUri(resourceId: Int) = "android.resource://${requireContext().packageName}/$resourceId".toUri()
+
+fun Fragment.getRawUris(arrayResourceId: Int): List<Uri> {
+    val rawUris = mutableListOf<Uri>()
+    val raws = requireContext().resources.obtainTypedArray(arrayResourceId)
+
+    for (index in 0 until raws.length()) {
+        val resourceId = raws.getResourceId(index, 0)
+
+        rawUris.add(getRawUri(resourceId))
+    }
+
+    raws.recycle()
+
+    return rawUris
 }
