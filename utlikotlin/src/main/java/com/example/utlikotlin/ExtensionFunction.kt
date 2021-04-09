@@ -6,7 +6,9 @@ import android.app.Application
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
@@ -240,4 +242,22 @@ fun Fragment.getRawUris(arrayResourceId: Int): List<Uri> {
     raws.recycle()
 
     return rawUris
+}
+
+fun Fragment.setLandscapeMode() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+}
+
+fun Fragment.setPortraitMode() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+}
+
+fun Fragment.isLandscapeMode() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+fun Fragment.rotateScreen() {
+    if (isLandscapeMode()) {
+        setPortraitMode()
+    } else {
+        setLandscapeMode()
+    }
 }
