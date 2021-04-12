@@ -31,6 +31,7 @@ import androidx.core.net.toUri
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
@@ -260,4 +261,14 @@ fun Fragment.rotateScreen() {
     } else {
         setLandscapeMode()
     }
+}
+
+fun LifecycleOwner.isConfigChanging() = (this as Fragment).requireActivity().isChangingConfigurations
+
+fun Fragment.setReverseLandscapeMode() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+}
+
+fun Fragment.setReversePortraitMode() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
 }
