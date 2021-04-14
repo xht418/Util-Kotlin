@@ -272,3 +272,5 @@ fun Fragment.setReverseLandscapeMode() {
 fun Fragment.setReversePortraitMode() {
     requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
 }
+
+fun AndroidViewModel.showToast(context: Context, text: String) = Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
