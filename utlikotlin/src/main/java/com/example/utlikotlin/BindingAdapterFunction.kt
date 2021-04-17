@@ -1,7 +1,6 @@
 package com.example.utlikotlin
 
 import android.content.res.TypedArray
-import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
@@ -14,6 +13,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
 
@@ -145,4 +146,9 @@ fun setImageResource(imageView: ImageView, imageUri: Uri?) {
     imageUri?.toBitmap(imageView.context)?.let {
         imageView.setImageBitmap(it)
     }
+}
+
+@BindingAdapter("player")
+fun setPlayer(playerView: PlayerView, player: SimpleExoPlayer) {
+    playerView.player = player
 }
