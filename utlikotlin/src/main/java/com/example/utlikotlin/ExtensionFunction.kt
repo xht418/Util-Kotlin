@@ -274,3 +274,20 @@ fun Fragment.setReversePortraitMode() {
 }
 
 fun AndroidViewModel.showToast(context: Context, text: String) = Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+
+fun AndroidViewModel.getRawUri(context: Context, resourceId: Int) = "android.resource://${context.packageName}/$resourceId".toUri()
+
+fun AndroidViewModel.getRawUris(context: Context, arrayResourceId: Int): List<Uri> {
+    val rawUris = mutableListOf<Uri>()
+    val raws = context.resources.obtainTypedArray(arrayResourceId)
+
+    for (index in 0 until raws.length()) {
+        val resourceId = raws.getResourceId(index, 0)
+
+        rawUris.add(getRawUri(context, resourceId))
+    }
+
+    raws.recycle()
+
+    return rawUris
+}
