@@ -54,15 +54,19 @@ class OrientationListener(
                 }
 
                 in (90 - TOLERANCE..90 + TOLERANCE) -> {
-                    degree90Action()
+                    if (!isDisableLandscape) {
+                        degree90Action()
 
-                    reset()
+                        reset()
+                    }
                 }
 
                 in (180 - TOLERANCE..180 + TOLERANCE) -> {
-                    degree180Action()
+                    if (!isDisablePortrait) {
+                        degree180Action()
 
-                    reset()
+                        reset()
+                    }
                 }
 
                 in (270 - TOLERANCE..270 + TOLERANCE) -> {
