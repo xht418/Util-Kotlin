@@ -300,7 +300,7 @@ fun Fragment.setFullScreenMode(isEnable: Boolean) {
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
     } else {
-        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
 
         (requireActivity() as AppCompatActivity).supportActionBar?.show()
     }
