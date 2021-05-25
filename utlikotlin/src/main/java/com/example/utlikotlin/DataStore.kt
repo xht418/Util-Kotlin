@@ -34,4 +34,21 @@ object DataStore {
 
         return sharedPreferences.getInt(imageName, 0)
     }
+
+    fun saveString(context: Context, keyResId: Int, value: String) {
+        val sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val key = context.getString(keyResId)
+
+        sharedPreferences.edit {
+            putString(key, value)
+        }
+    }
+
+    fun getString(context: Context, keyResId: Int, defaultValueResId: Int = -1): String {
+        val sharedPreferences = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val key = context.getString(keyResId)
+        val defaultValue = if (defaultValueResId == -1) "" else context.getString(defaultValueResId)
+
+        return sharedPreferences.getString(key, defaultValue)!!
+    }
 }
