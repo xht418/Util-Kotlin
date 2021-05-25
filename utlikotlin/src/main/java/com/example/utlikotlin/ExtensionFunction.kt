@@ -17,6 +17,7 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.util.Patterns
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import java.io.OutputStream
 import java.lang.StringBuilder
 import java.nio.charset.Charset
@@ -311,4 +313,12 @@ fun ImageButton.setEnableWithEffect(isEnable: Boolean) {
         isEnabled = false
         imageAlpha = 0x3F
     }
+}
+
+fun String.isIpAddress() = Patterns.IP_ADDRESS.matcher(this).matches()
+
+fun TextInputEditText.focusOnLast() {
+    requestFocus()
+
+    setSelection(text.toString().length)
 }

@@ -1,9 +1,9 @@
 package com.example.utlikotlin
 
-import android.net.Uri
+import androidx.core.net.toUri
 
 object ExternalStorage {
-    private val rootPath = "content://com.android.externalstorage.documents/document/primary:"
+    private const val rootPath = "content://com.android.externalstorage.documents/document/primary:"
 
-    fun getPath(directory: String, folderName: String) = Uri.parse("$rootPath$directory%2$folderName")
+    fun getPath(directory: String, folderName: String) = "$rootPath$directory%2$folderName".toUri()
 }
