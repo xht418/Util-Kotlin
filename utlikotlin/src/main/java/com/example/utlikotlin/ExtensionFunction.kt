@@ -189,10 +189,6 @@ fun Fragment.showSnackbar(text: String) {
 
 fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
-    return getApplication<Application>().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-}
-
 fun Fragment.isAllPermissionsGranted(permissions: Array<String>) = permissions.all {
     ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
 }
@@ -272,18 +268,26 @@ fun Fragment.setReversePortraitMode() {
     requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
 }
 
-fun AndroidViewModel.showToast(context: Context, text: String) = Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
+    return (getApplication() as Context).getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+}
 
-fun AndroidViewModel.getRawUri(context: Context, resourceId: Int) = "android.resource://${context.packageName}/$resourceId".toUri()
+fun AndroidViewModel.showToast(text: String) = Toast.makeText(getApplication(), text, Toast.LENGTH_SHORT).show()
 
-fun AndroidViewModel.getRawUris(context: Context, arrayResourceId: Int): List<Uri> {
+fun AndroidViewModel.showToast(resourceId: Int) = Toast.makeText(getApplication(), resourceId, Toast.LENGTH_SHORT).show()
+
+fun AndroidViewModel.showToastLong(resourceId: Int) = Toast.makeText(getApplication(), resourceId, Toast.LENGTH_LONG).show()
+
+fun AndroidViewModel.getRawUri(resourceId: Int) = "android.resource://${(getApplication() as Context).packageName}/$resourceId".toUri()
+
+fun AndroidViewModel.getRawUris(arrayResourceId: Int): List<Uri> {
     val rawUris = mutableListOf<Uri>()
-    val raws = context.resources.obtainTypedArray(arrayResourceId)
+    val raws = (getApplication() as Context).resources.obtainTypedArray(arrayResourceId)
 
     for (index in 0 until raws.length()) {
         val resourceId = raws.getResourceId(index, 0)
 
-        rawUris.add(getRawUri(context, resourceId))
+        rawUris.add(getRawUri(resourceId))
     }
 
     raws.recycle()
