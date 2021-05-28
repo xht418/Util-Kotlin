@@ -2,7 +2,6 @@ package com.example.utlikotlin
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
-import android.app.Application
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -22,6 +21,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -38,7 +38,6 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import java.io.OutputStream
-import java.lang.StringBuilder
 import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*
@@ -93,12 +92,12 @@ fun Bitmap.toEscBytes() = EscBitmapHelper.getBytes(this)
 
 fun OutputStream.write(bitmap: Bitmap) = this.write(bitmap.toEscBytes())
 
-fun Fragment.pickPhoto(requestCode: Int) {
-    val intent = Intent(Intent.ACTION_PICK)
+fun Fragment.pickPhoto(request: ActivityResultLauncher<Intent>) {
+    val intent = Intent(Intent.ACTION_PICK).apply {
+        type = "image/*"
+    }
 
-    intent.type = "image/*"
-
-    startActivityForResult(intent, requestCode)
+    request.launch(intent)
 }
 
 fun Fragment.pickAndSavePhoto(requestCode: Int) {
