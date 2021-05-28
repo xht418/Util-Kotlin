@@ -42,71 +42,25 @@ import java.nio.charset.Charset
 import java.text.SimpleDateFormat
 import java.util.*
 
+fun Int.dp(context: Context) = this * context.resources.displayMetrics.density
+
+fun Long.format(pattern: String) = SimpleDateFormat(pattern, Locale.getDefault()).format(this)
+
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
 fun Float.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
-fun <T> List<T>.range(fromIndex: Int, toIndex: Int) = this.subList(fromIndex, toIndex + 1)
-
-fun Int.dp(context: Context) = this * context.resources.displayMetrics.density
-
-fun View.indexOfParent() = (this.parent as ViewGroup).indexOfChild(this)
-
-fun View.scale(value: Float, duration: Long) {
-    val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, value)
-    val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, value)
-
-    val animator = ObjectAnimator.ofPropertyValuesHolder(this, scaleX, scaleY)
-
-    animator.duration = duration
-
-    animator.start()
-}
-
-fun CardView.mapColor(arrayResourceId: Int, colorIndex: Int) {
-    val colors = resources.obtainTypedArray(arrayResourceId)
-    val color = this.context.getColor(colors.getResourceId(colorIndex, 0))
-
-    this.setCardBackgroundColor(color)
-
-    colors.recycle()
-}
-
-fun PopupWindow.build(contentView: View) = this.apply {
-    setContentView(contentView)
-    setBackgroundDrawable(null)
-
-    isOutsideTouchable = true
-    isFocusable = true
-}
-
-fun AppCompatActivity.getNavHostFragmentById(id: Int) = supportFragmentManager.findFragmentById(id) as NavHostFragment
-
 fun String.toBytes() = this.toByteArray(Charset.forName("GBK"))
+
+fun String.isIpAddress() = Patterns.IP_ADDRESS.matcher(this).matches()
+
+fun Bitmap.toEscBytes() = EscBitmapHelper.getBytes(this)
 
 fun OutputStream.write(text: String) = this.write(text.toBytes())
 
 fun OutputStream.writeln(text: String) = this.write("$text\n".toBytes())
 
-fun Bitmap.toEscBytes() = EscBitmapHelper.getBytes(this)
-
 fun OutputStream.write(bitmap: Bitmap) = this.write(bitmap.toEscBytes())
-
-fun Fragment.pickPhoto(request: ActivityResultLauncher<Intent>) {
-    val intent = Intent(Intent.ACTION_PICK).apply {
-        type = "image/*"
-    }
-
-    request.launch(intent)
-}
-
-fun Fragment.pickAndSavePhoto(requestCode: Int) {
-    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-
-    intent.type = "image/*"
-
-    startActivityForResult(intent, requestCode)
-}
 
 fun Uri.toBitmap(context: Context): Bitmap? {
     val bitmap: Bitmap
@@ -126,6 +80,29 @@ fun Uri.toBitmap(context: Context): Bitmap? {
     }
 }
 
+fun <T> List<T>.range(fromIndex: Int, toIndex: Int) = this.subList(fromIndex, toIndex + 1)
+
+fun View.indexOfParent() = (this.parent as ViewGroup).indexOfChild(this)
+
+fun View.scale(value: Float, duration: Long) {
+    val scaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, value)
+    val scaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, value)
+
+    val animator = ObjectAnimator.ofPropertyValuesHolder(this, scaleX, scaleY)
+
+    animator.duration = duration
+
+    animator.start()
+}
+
+fun View.isTouched(motionEvent: MotionEvent): Boolean {
+    val rect = Rect()
+
+    this.getGlobalVisibleRect(rect)
+
+    return rect.contains(motionEvent.rawX.toInt(), motionEvent.rawY.toInt())
+}
+
 fun ViewGroup.getCheckedIndexes(): List<Int> {
     val checkedIndexes = mutableListOf<Int>()
 
@@ -138,19 +115,90 @@ fun ViewGroup.getCheckedIndexes(): List<Int> {
     return checkedIndexes
 }
 
-fun View.isTouched(motionEvent: MotionEvent): Boolean {
-    val rect = Rect()
+fun CardView.mapColor(arrayResourceId: Int, colorIndex: Int) {
+    val colors = resources.obtainTypedArray(arrayResourceId)
+    val color = this.context.getColor(colors.getResourceId(colorIndex, 0))
 
-    this.getGlobalVisibleRect(rect)
+    this.setCardBackgroundColor(color)
 
-    return rect.contains(motionEvent.rawX.toInt(), motionEvent.rawY.toInt())
+    colors.recycle()
+}
+
+fun PopupWindow.build(contentView: View) = this.apply {
+    setContentView(contentView)
+    setBackgroundDrawable(null)
+
+    isOutsideTouchable = true
+    isFocusable = true
 }
 
 fun PopupWindow.showAsAbove(anchorView: View) = this.showAsDropDown(anchorView, 0, -anchorView.height * 4)
 
+fun ImageButton.setEnableWithEffect(isEnable: Boolean) {
+    if (isEnable) {
+        isEnabled = true
+        imageAlpha = 0xFF
+    } else {
+        isEnabled = false
+        imageAlpha = 0x3F
+    }
+}
+
+fun TextInputEditText.focusOnLast() {
+    requestFocus()
+
+    setSelection(text.toString().length)
+}
+
+fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+fun AppCompatActivity.getNavHostFragmentById(id: Int) = supportFragmentManager.findFragmentById(id) as NavHostFragment
+
+fun LifecycleOwner.isConfigChanging() = (this as Fragment).requireActivity().isChangingConfigurations
+
+fun Intent.isResolvable(context: Context) = resolveActivity(context.packageManager) != null
+
 fun Fragment.getConnectivityManager() = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
 fun Fragment.getFragmentById(id: Int) = childFragmentManager.findFragmentById(id)
+
+fun Fragment.showToast(text: String) = Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+
+fun Fragment.showToast(resourceId: Int) = Toast.makeText(requireContext(), resourceId, Toast.LENGTH_SHORT).show()
+
+fun Fragment.showToastLong(text: String) = Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
+
+fun Fragment.showToastLong(resourceId: Int) = Toast.makeText(requireContext(), resourceId, Toast.LENGTH_LONG).show()
+
+fun Fragment.showSnackbar(text: String) {
+    val view = requireActivity().findViewById<View>(android.R.id.content)
+
+    Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show()
+}
+
+fun Fragment.pickPhoto(request: ActivityResultLauncher<Intent>) {
+    val intent = Intent(Intent.ACTION_PICK).apply {
+        type = "image/*"
+    }
+
+    request.launch(intent)
+}
+
+fun Fragment.pickAndSavePhoto(requestCode: Int) {
+    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+
+    intent.type = "image/*"
+
+    startActivityForResult(intent, requestCode)
+}
+
+fun Fragment.takeAndSavePicture(requestCode: Int, imageUri: Uri) {
+    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+
+    startActivityForResult(intent, requestCode)
+}
 
 fun Fragment.requestGPSOn(requestCode: Int) {
     val locationRequest = LocationRequest.create().apply {
@@ -172,29 +220,15 @@ fun Fragment.requestGPSOn(requestCode: Int) {
     }
 }
 
-fun Fragment.showToast(text: String) = Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
-
-fun Fragment.showToast(resourceId: Int) = Toast.makeText(requireContext(), resourceId, Toast.LENGTH_SHORT).show()
-
-fun Fragment.showToastLong(text: String) = Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
-
-fun Fragment.showToastLong(resourceId: Int) = Toast.makeText(requireContext(), resourceId, Toast.LENGTH_LONG).show()
-
-fun Fragment.showSnackbar(text: String) {
-    val view = requireActivity().findViewById<View>(android.R.id.content)
-
-    Snackbar.make(view, text, Snackbar.LENGTH_SHORT).show()
-}
-
-fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
 fun Fragment.isAllPermissionsGranted(permissions: Array<String>) = permissions.all {
     ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
 }
 
-fun Intent.isResolvable(context: Context) = resolveActivity(context.packageManager) != null
+fun Fragment.openApp(packageName: String) {
+    val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
 
-fun Long.format(pattern: String) = SimpleDateFormat(pattern, Locale.getDefault()).format(this)
+    startActivity(intent)
+}
 
 fun Fragment.getImageUri(fileName: String, folderName: String): Uri {
     val values = ContentValues().apply {
@@ -207,20 +241,6 @@ fun Fragment.getImageUri(fileName: String, folderName: String): Uri {
 }
 
 fun Fragment.deleteImage(imageUri: Uri) = requireContext().contentResolver.delete(imageUri, null, null)
-
-fun Fragment.takeAndSavePicture(requestCode: Int, imageUri: Uri) {
-    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-
-    startActivityForResult(intent, requestCode)
-}
-
-fun Fragment.openApp(packageName: String) {
-    val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
-
-    startActivity(intent)
-}
 
 fun Fragment.getRawUri(resourceId: Int) = "android.resource://${requireContext().packageName}/$resourceId".toUri()
 
@@ -239,14 +259,6 @@ fun Fragment.getRawUris(arrayResourceId: Int): List<Uri> {
     return rawUris
 }
 
-fun Fragment.setLandscapeMode() {
-    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-}
-
-fun Fragment.setPortraitMode() {
-    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-}
-
 fun Fragment.isLandscapeMode() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
 fun Fragment.rotateScreen() {
@@ -257,7 +269,13 @@ fun Fragment.rotateScreen() {
     }
 }
 
-fun LifecycleOwner.isConfigChanging() = (this as Fragment).requireActivity().isChangingConfigurations
+fun Fragment.setLandscapeMode() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+}
+
+fun Fragment.setPortraitMode() {
+    requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+}
 
 fun Fragment.setReverseLandscapeMode() {
     requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
@@ -265,6 +283,20 @@ fun Fragment.setReverseLandscapeMode() {
 
 fun Fragment.setReversePortraitMode() {
     requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+}
+
+fun Fragment.setFullScreenMode(isEnable: Boolean) {
+    if (isEnable) {
+        val systemUiFlag = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+
+        requireActivity().window.decorView.systemUiVisibility = systemUiFlag
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
+    } else {
+        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.show()
+    }
 }
 
 fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
@@ -292,36 +324,4 @@ fun AndroidViewModel.getRawUris(arrayResourceId: Int): List<Uri> {
     raws.recycle()
 
     return rawUris
-}
-
-fun Fragment.setFullScreenMode(isEnable: Boolean) {
-    if (isEnable) {
-        val systemUiFlag = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-
-        requireActivity().window.decorView.systemUiVisibility = systemUiFlag
-
-        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
-    } else {
-        requireActivity().window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
-
-        (requireActivity() as AppCompatActivity).supportActionBar?.show()
-    }
-}
-
-fun ImageButton.setEnableWithEffect(isEnable: Boolean) {
-    if (isEnable) {
-        isEnabled = true
-        imageAlpha = 0xFF
-    } else {
-        isEnabled = false
-        imageAlpha = 0x3F
-    }
-}
-
-fun String.isIpAddress() = Patterns.IP_ADDRESS.matcher(this).matches()
-
-fun TextInputEditText.focusOnLast() {
-    requestFocus()
-
-    setSelection(text.toString().length)
 }
