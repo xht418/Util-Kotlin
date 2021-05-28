@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
@@ -297,6 +298,14 @@ fun Fragment.setFullScreenMode(isEnable: Boolean) {
 
         (requireActivity() as AppCompatActivity).supportActionBar?.show()
     }
+}
+
+fun Fragment.setFragmentResult(requestKeyResId: Int, result: Bundle) {
+    parentFragmentManager.setFragmentResult(getString(requestKeyResId), result)
+}
+
+fun Fragment.setFragmentResultListener(requestKeyResId: Int, listener: (String, Bundle) -> Unit) {
+    parentFragmentManager.setFragmentResultListener(getString(requestKeyResId), this, listener)
 }
 
 fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
