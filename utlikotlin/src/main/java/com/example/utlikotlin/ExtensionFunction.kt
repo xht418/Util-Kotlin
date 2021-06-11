@@ -36,6 +36,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import java.io.OutputStream
@@ -306,6 +307,14 @@ fun Fragment.setFragmentResult(requestKeyResId: Int, result: Bundle) {
 
 fun Fragment.setFragmentResultListener(requestKeyResId: Int, listener: (String, Bundle) -> Unit) {
     parentFragmentManager.setFragmentResultListener(getString(requestKeyResId), this, listener)
+}
+
+fun Fragment.setActionBar(toolbar: MaterialToolbar) {
+    (requireActivity() as AppCompatActivity).apply {
+        supportActionBar?.hide()
+
+        setSupportActionBar(toolbar)
+    }
 }
 
 fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
