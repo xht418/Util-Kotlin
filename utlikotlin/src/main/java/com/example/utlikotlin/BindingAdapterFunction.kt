@@ -15,8 +15,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.button.MaterialButtonToggleGroup
+import kotlin.math.abs
 
 @BindingAdapter("android:text", "isAddCase")
 fun setText(editText: EditText, text: String, isAddCase: Boolean) {
@@ -151,4 +154,13 @@ fun setImageResource(imageView: ImageView, imageUri: Uri?) {
 @BindingAdapter("player")
 fun setPlayer(playerView: PlayerView, player: SimpleExoPlayer) {
     playerView.player = player
+}
+
+@BindingAdapter("collapsedTitle")
+fun setOnOffsetChangedListener(collapsingToolbarLayout: CollapsingToolbarLayout, collapsedTitle: String) {
+    val appBarLayout = collapsingToolbarLayout.parent as AppBarLayout
+
+    appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+        collapsingToolbarLayout.title = if (abs(verticalOffset) == appBarLayout.totalScrollRange) collapsedTitle else ""
+    })
 }
