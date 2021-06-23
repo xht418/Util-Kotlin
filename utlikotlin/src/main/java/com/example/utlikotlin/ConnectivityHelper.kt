@@ -8,7 +8,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 object ConnectivityHelper {
-    fun getIsWifiOn(context: Context) = with(context.getConnectivityManager()) {
+    fun isWifiOn(context: Context) = with(context.getConnectivityManager()) {
         getNetworkCapabilities(activeNetwork)?.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
     }
 
