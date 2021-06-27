@@ -41,12 +41,18 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import java.io.OutputStream
 import java.nio.charset.Charset
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 fun Int.dp(context: Context) = this * context.resources.displayMetrics.density
 
-fun Long.format(pattern: String) = SimpleDateFormat(pattern, Locale.getDefault()).format(this)
+fun Long.toDateTimeString(dateTimeFormat: String): String {
+    val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
+    val localDateTime = LocalDateTime.ofEpochSecond(this, 0, ZoneOffset.UTC)
+
+    return localDateTime.format(dateTimeFormatter)
+}
 
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
@@ -55,6 +61,12 @@ fun Float.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 fun String.toBytes() = this.toByteArray(Charset.forName("GBK"))
 
 fun String.isIpAddress() = Patterns.IP_ADDRESS.matcher(this).matches()
+
+fun String.toDateTimeLong(dateTimeFormat: String): Long {
+    val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
+
+    return LocalDateTime.parse(this, dateTimeFormatter).toEpochSecond(ZoneOffset.UTC)
+}
 
 fun Bitmap.toEscBytes() = EscBitmapHelper.getBytes(this)
 
