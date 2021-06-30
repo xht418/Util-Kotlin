@@ -14,9 +14,13 @@ object DateTimeHelper {
 
     fun getTodayEndLong() = LocalDateTime.now().with(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC)
 
+    fun getFutureDaysStartLong(dayCount: Long) = LocalDateTime.now().plusDays(dayCount).with(LocalTime.MIN).toEpochSecond(ZoneOffset.UTC)
+
     fun getFutureDaysEndLong(dayCount: Long) = LocalDateTime.now().plusDays(dayCount).with(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC)
 
     fun getPastDaysStartLong(dayCount: Long) = LocalDateTime.now().minusDays(dayCount).with(LocalTime.MIN).toEpochSecond(ZoneOffset.UTC)
+
+    fun getPastDaysEndLong(dayCount: Long) = LocalDateTime.now().minusDays(dayCount).with(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC)
 
     fun getFutureDaysString(dateTimeFormat: String, dayCount: Long): String {
         val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
