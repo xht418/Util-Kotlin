@@ -2,6 +2,7 @@ package com.example.utlikotlin
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.app.NotificationManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -165,6 +166,14 @@ fun TextInputEditText.focusOnLast() {
 }
 
 fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+fun Context.cancelNotification() = getSystemService(NotificationManager::class.java).cancelAll()
+
+fun Context.closeNotificationPanel() {
+    val intent = Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)
+
+    sendBroadcast(intent)
+}
 
 fun AppCompatActivity.getNavHostFragmentById(id: Int) = supportFragmentManager.findFragmentById(id) as NavHostFragment
 
