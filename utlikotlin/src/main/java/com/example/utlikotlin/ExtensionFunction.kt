@@ -2,6 +2,7 @@ package com.example.utlikotlin
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.app.DownloadManager
 import android.app.NotificationManager
 import android.content.ContentValues
 import android.content.Context
@@ -363,4 +364,28 @@ fun AndroidViewModel.getRawUris(arrayResourceId: Int): List<Uri> {
     raws.recycle()
 
     return rawUris
+}
+
+fun DownloadManager.getDownloadedFile(id: Long): DownloadedFile {
+    var url = ""
+    var status = DownloadStatus.RUNNING
+
+    val query = DownloadManager.Query().setFilterById(id)
+    val cursor = query(query)
+
+    cursor.use {
+        if (it.moveToFirst()) {
+            url = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_URI))
+
+            val statusIndex = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+
+            status = when (statusIndex) {
+                DownloadManager.STATUS_SUCCESSFUL -> DownloadStatus.SUCCESSFUL
+
+                else -> DownloadStatus.FAILED
+            }
+        }
+    }
+
+    return DownloadedFile(url, status)
 }
