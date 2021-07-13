@@ -185,6 +185,8 @@ fun Intent.isResolvable(context: Context) = resolveActivity(context.packageManag
 
 fun Fragment.getConnectivityManager() = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+fun Fragment.getNotificationManager() = requireContext().getSystemService(NotificationManager::class.java) as NotificationManager
+
 fun Fragment.getFragmentById(id: Int) = childFragmentManager.findFragmentById(id)
 
 fun Fragment.getMapFragmentById(id: Int) = childFragmentManager.findFragmentById(id) as SupportMapFragment
