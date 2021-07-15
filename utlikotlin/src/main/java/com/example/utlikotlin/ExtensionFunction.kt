@@ -169,6 +169,8 @@ fun TextInputEditText.focusOnLast() {
 
 fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
+fun Context.getNotificationManager() = getSystemService(NotificationManager::class.java) as NotificationManager
+
 fun Context.cancelNotification() = getSystemService(NotificationManager::class.java).cancelAll()
 
 fun Context.closeNotificationPanel() {
