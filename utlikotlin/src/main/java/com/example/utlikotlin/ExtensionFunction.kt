@@ -25,6 +25,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -231,9 +232,9 @@ fun Fragment.takeAndSavePicture(requestCode: Int, imageUri: Uri) {
     startActivityForResult(intent, requestCode)
 }
 
-fun Fragment.requestGPSOn(requestCode: Int) {
+fun Fragment.requestGPSOn(request: ActivityResultLauncher<IntentSenderRequest>) {
     val locationRequest = LocationRequest.create().apply {
-        priority = LocationRequest.PRIORITY_LOW_POWER
+        priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
     }
 
     val settingRequest = LocationSettingsRequest.Builder().run {
@@ -246,8 +247,9 @@ fun Fragment.requestGPSOn(requestCode: Int) {
 
     checkTask.addOnFailureListener {
         val intentSender = (it as ResolvableApiException).resolution.intentSender
+        val intentSenderRequest = IntentSenderRequest.Builder(intentSender).build()
 
-        startIntentSenderForResult(intentSender, requestCode, null, 0, 0, 0, null)
+        request.launch(intentSenderRequest)
     }
 }
 
