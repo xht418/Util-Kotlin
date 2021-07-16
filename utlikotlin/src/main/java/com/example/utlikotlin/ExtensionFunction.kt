@@ -251,6 +251,8 @@ fun Fragment.requestGPSOn(requestCode: Int) {
     }
 }
 
+fun Fragment.requestPermissions(request: ActivityResultLauncher<Array<String>>, permissions: Array<String>) = request.launch(permissions)
+
 fun Fragment.isAllPermissionsGranted(permissions: Array<String>) = permissions.all {
     ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
 }
