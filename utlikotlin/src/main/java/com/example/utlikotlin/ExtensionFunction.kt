@@ -243,9 +243,9 @@ fun Fragment.requestGPSOn(request: ActivityResultLauncher<IntentSenderRequest>) 
     }
 
     val settingsClient = LocationServices.getSettingsClient(requireContext())
-    val checkTask = settingsClient.checkLocationSettings(settingRequest)
+    val task = settingsClient.checkLocationSettings(settingRequest)
 
-    checkTask.addOnFailureListener {
+    task.addOnFailureListener {
         val intentSender = (it as ResolvableApiException).resolution.intentSender
         val intentSenderRequest = IntentSenderRequest.Builder(intentSender).build()
 
