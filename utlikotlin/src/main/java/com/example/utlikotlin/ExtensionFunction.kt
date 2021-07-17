@@ -13,6 +13,7 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
+import android.location.LocationManager
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
@@ -230,6 +231,12 @@ fun Fragment.takeAndSavePicture(requestCode: Int, imageUri: Uri) {
     intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
 
     startActivityForResult(intent, requestCode)
+}
+
+fun Fragment.isGPSOn(): Boolean {
+    val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+    return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 }
 
 fun Fragment.requestGPSOn(request: ActivityResultLauncher<IntentSenderRequest>) {
