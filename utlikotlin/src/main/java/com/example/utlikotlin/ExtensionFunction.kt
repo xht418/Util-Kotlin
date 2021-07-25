@@ -65,6 +65,8 @@ fun Float.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
 fun String.toBytes() = this.toByteArray(Charset.forName("GBK"))
 
+fun String.isEmailAddress() = Patterns.EMAIL_ADDRESS.matcher(this).matches()
+
 fun String.isIpAddress() = Patterns.IP_ADDRESS.matcher(this).matches()
 
 fun String.toDateTimeLong(dateTimeFormat: String): Long {
