@@ -268,6 +268,13 @@ fun Fragment.isAllPermissionsGranted(permissions: Array<String>) = permissions.a
     ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
 }
 
+fun Fragment.openWebsite(url: String) {
+    val uri = url.toUri().buildUpon().scheme("https").build()
+    val intent = Intent(Intent.ACTION_VIEW, uri)
+
+    startActivity(intent)
+}
+
 fun Fragment.openApp(packageName: String) {
     val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
 
