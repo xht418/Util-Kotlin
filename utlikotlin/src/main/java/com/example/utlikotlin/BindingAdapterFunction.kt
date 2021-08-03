@@ -81,6 +81,13 @@ fun setImageResource(imageView: ImageView, imageUrl: String?, placeHolderImage: 
 }
 
 @BindingAdapter("data")
+fun setData(autoCompleteTextView: AutoCompleteTextView, words: List<String>) {
+    val adapter = ArrayAdapter(autoCompleteTextView.context, android.R.layout.simple_dropdown_item_1line, words)
+
+    autoCompleteTextView.setAdapter(adapter)
+}
+
+@BindingAdapter("data")
 fun <T> setData(recyclerView: RecyclerView, data: List<T>?) {
     (recyclerView.adapter as ListAdapter<T, RecyclerView.ViewHolder>).submitList(data)
 }
