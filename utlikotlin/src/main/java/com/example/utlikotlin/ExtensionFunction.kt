@@ -44,6 +44,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.io.OutputStream
 import java.nio.charset.Charset
 import java.time.LocalDateTime
@@ -392,6 +395,12 @@ fun AndroidViewModel.getRawUris(arrayResourceId: Int): List<Uri> {
 
     return rawUris
 }
+
+fun <T> MutableStateFlow<T>.collect(coroutineScope: CoroutineScope, action: (T) -> Unit) = coroutineScope.launch {
+    collect { T -> action(T) }
+}
+
+fun <R> Flow<R>.toStateFlow(coroutineScope: CoroutineScope, initialValue: R) = stateIn(coroutineScope, SharingStarted.Lazily, initialValue)
 
 fun DownloadManager.getDownloadedFile(id: Long): DownloadedFile {
     var url = ""
