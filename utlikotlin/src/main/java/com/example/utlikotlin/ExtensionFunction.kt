@@ -396,7 +396,7 @@ fun AndroidViewModel.getRawUris(arrayResourceId: Int): List<Uri> {
     return rawUris
 }
 
-fun <T> MutableStateFlow<T>.collect(coroutineScope: CoroutineScope, action: (T) -> Unit) = coroutineScope.launch {
+fun <T> StateFlow<T>.collect(coroutineScope: CoroutineScope, action: (T) -> Unit) = coroutineScope.launch {
     collect { T -> action(T) }
 }
 
