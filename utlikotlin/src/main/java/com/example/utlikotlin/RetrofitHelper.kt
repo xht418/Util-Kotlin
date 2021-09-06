@@ -1,18 +1,15 @@
 package com.example.utlikotlin
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.json.Json
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitHelper {
-    private val moshi = Moshi.Builder().run {
-        add(KotlinJsonAdapterFactory())
-        build()
-    }
+    private val contentType = "application/json".toMediaType()
+    private val json = Json { ignoreUnknownKeys = true }
 
     private fun getRetrofit(baseUrl: String) = Retrofit.Builder().run {
-        addConverterFactory(MoshiConverterFactory.create(moshi))
+        addConverterFactory(json.asConverterFactory(contentType))
         baseUrl(baseUrl)
         build()
     }
