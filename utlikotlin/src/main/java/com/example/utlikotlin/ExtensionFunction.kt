@@ -47,6 +47,7 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
 import java.io.OutputStream
 import java.nio.charset.Charset
 import java.time.LocalDateTime
@@ -67,6 +68,8 @@ fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 fun Float.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
 fun String.toBytes() = this.toByteArray(Charset.forName("GBK"))
+
+fun String.toMediaType(): MediaType = MediaType.get(this)
 
 fun String.isEmailAddress() = Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
@@ -376,6 +379,8 @@ fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
 fun AndroidViewModel.showToast(text: String) = Toast.makeText(getApplication(), text, Toast.LENGTH_SHORT).show()
 
 fun AndroidViewModel.showToast(resourceId: Int) = Toast.makeText(getApplication(), resourceId, Toast.LENGTH_SHORT).show()
+
+fun AndroidViewModel.showToastLong(text: String) = Toast.makeText(getApplication(), text, Toast.LENGTH_LONG).show()
 
 fun AndroidViewModel.showToastLong(resourceId: Int) = Toast.makeText(getApplication(), resourceId, Toast.LENGTH_LONG).show()
 
