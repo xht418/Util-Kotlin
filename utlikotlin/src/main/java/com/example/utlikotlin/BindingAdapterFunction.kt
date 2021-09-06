@@ -4,6 +4,8 @@ import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.*
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
@@ -170,4 +172,17 @@ fun setOnOffsetChangedListener(collapsingToolbarLayout: CollapsingToolbarLayout,
     appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
         collapsingToolbarLayout.title = if (abs(verticalOffset) == appBarLayout.totalScrollRange) collapsedTitle else ""
     })
+}
+
+@BindingAdapter("url")
+fun setUrl(webView: WebView, url: String) = webView.apply {
+    webViewClient = WebViewClient()
+
+    settings.apply {
+        javaScriptEnabled = true
+        builtInZoomControls = true
+        displayZoomControls = true
+    }
+
+    loadUrl(url)
 }
