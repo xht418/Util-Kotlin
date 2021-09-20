@@ -19,6 +19,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.util.Patterns
 import android.view.MotionEvent
@@ -74,6 +75,10 @@ fun String.toMediaType(): MediaType = MediaType.get(this)
 fun String.isEmailAddress() = Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 fun String.isIpAddress() = Patterns.IP_ADDRESS.matcher(this).matches()
+
+fun String.toEncryptedString(): String = Base64.encodeToString(this.toByteArray(), Base64.NO_PADDING)
+
+fun String.toDecryptedString() = Base64.decode(this, Base64.NO_PADDING).decodeToString()
 
 fun String.toDateTimeLong(dateTimeFormat: String): Long {
     val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
