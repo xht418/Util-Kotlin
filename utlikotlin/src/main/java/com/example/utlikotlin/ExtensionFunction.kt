@@ -45,6 +45,8 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -375,6 +377,22 @@ fun Fragment.setActionBar(toolbar: MaterialToolbar) {
 
         setSupportActionBar(toolbar)
     }
+}
+
+fun Fragment.showTimePicker(titleResId: Int, hour: Int, minute: Int, confirmClickAction: (Int, Int) -> Unit) {
+    val timePicker = MaterialTimePicker.Builder().run {
+        setTimeFormat(TimeFormat.CLOCK_12H)
+        setTitleText(getString(titleResId))
+        setHour(hour)
+        setMinute(minute)
+        build()
+    }
+
+    timePicker.addOnPositiveButtonClickListener {
+        confirmClickAction(timePicker.hour, timePicker.minute)
+    }
+
+    timePicker.show(childFragmentManager, "")
 }
 
 fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
