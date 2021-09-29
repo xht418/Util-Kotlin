@@ -59,6 +59,16 @@ import java.time.format.DateTimeFormatter
 
 fun Int.dp(context: Context) = this * context.resources.displayMetrics.density
 
+fun Int.toDigit(digit: Int): String {
+    var num = this.toString()
+
+    if (digit > num.length) {
+        num = "0".repeat(digit - num.length) + num
+    }
+
+    return num
+}
+
 fun Long.toDateTimeString(dateTimeFormat: String): String {
     val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
     val localDateTime = LocalDateTime.ofEpochSecond(this, 0, ZoneOffset.UTC)
