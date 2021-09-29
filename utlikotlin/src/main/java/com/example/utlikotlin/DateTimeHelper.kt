@@ -1,5 +1,6 @@
 package com.example.utlikotlin
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneOffset
@@ -21,6 +22,13 @@ object DateTimeHelper {
     fun getPastDaysStartLong(dayCount: Long) = LocalDateTime.now().minusDays(dayCount).with(LocalTime.MIN).toEpochSecond(ZoneOffset.UTC)
 
     fun getPastDaysEndLong(dayCount: Long) = LocalDateTime.now().minusDays(dayCount).with(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC)
+
+    fun getTodayByTimeLong(hour: Int, minute: Int): Long {
+        val formattedHour = hour.toDigit(2)
+        val formattedMinute = minute.toDigit(2)
+
+        return LocalDateTime.of(LocalDate.now(), LocalTime.parse("$formattedHour:$formattedMinute:00")).toEpochSecond(ZoneOffset.UTC)
+    }
 
     fun getFutureDaysString(dateTimeFormat: String, dayCount: Long): String {
         val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
