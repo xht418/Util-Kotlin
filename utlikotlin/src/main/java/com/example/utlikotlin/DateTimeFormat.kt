@@ -8,4 +8,6 @@ object DateTimeFormat {
     const val MM_DD_YYYY_SLASH = "MM/dd/yyyy"
     const val MM_DD_YYYY_HH_MM_SS_SLASH = "MM/dd/yyyy, HH:mm:ss"
     const val MM_DD_YYYY_HH_MM_SS_SSS_SLASH = "MM/dd/yyyy, HH:mm:ss:SSS"
+
+    const val H_MM_12 = "h:mm a"
 }

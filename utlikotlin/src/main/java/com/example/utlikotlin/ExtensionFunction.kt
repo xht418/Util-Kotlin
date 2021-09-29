@@ -69,6 +69,8 @@ fun Int.toDigit(digit: Int): String {
     return num
 }
 
+fun Long.toLocalTime() = LocalDateTime.ofEpochSecond(this, 0, ZoneOffset.UTC).toLocalTime()
+
 fun Long.toDateTimeString(dateTimeFormat: String): String {
     val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
     val localDateTime = LocalDateTime.ofEpochSecond(this, 0, ZoneOffset.UTC)
