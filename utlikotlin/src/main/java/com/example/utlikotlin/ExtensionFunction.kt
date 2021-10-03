@@ -2,6 +2,7 @@ package com.example.utlikotlin
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.app.AlarmManager
 import android.app.DownloadManager
 import android.app.NotificationManager
 import android.content.ContentValues
@@ -410,6 +411,8 @@ fun Fragment.showTimePicker(titleResId: Int, hour: Int, minute: Int, confirmClic
 fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
     return (getApplication() as Context).getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 }
+
+fun AndroidViewModel.getAlarmManager() = (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
 fun AndroidViewModel.showToast(text: String) = Toast.makeText(getApplication(), text, Toast.LENGTH_SHORT).show()
 
