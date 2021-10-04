@@ -55,6 +55,7 @@ import okhttp3.MediaType
 import java.io.OutputStream
 import java.nio.charset.Charset
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -78,6 +79,8 @@ fun Long.toDateTimeString(dateTimeFormat: String): String {
 
     return localDateTime.format(dateTimeFormatter)
 }
+
+fun LocalDateTime.toLong() = this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
