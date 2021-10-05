@@ -72,11 +72,11 @@ fun Int.toDigit(digit: Int): String {
     return num
 }
 
-fun Long.toLocalTime() = LocalDateTime.ofEpochSecond(this, 0, ZoneOffset.UTC).toLocalTime()
+fun Long.toLocalTime() = this.toLocalDateTime().toLocalTime()
 
 fun Long.toDateTimeString(dateTimeFormat: String): String {
     val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
-    val localDateTime = LocalDateTime.ofEpochSecond(this, 0, ZoneOffset.UTC)
+    val localDateTime = this.toLocalDateTime()
 
     return localDateTime.format(dateTimeFormatter)
 }
@@ -104,7 +104,7 @@ fun String.toDecryptedString() = Base64.decode(this, Base64.NO_PADDING).decodeTo
 fun String.toDateTimeLong(dateTimeFormat: String): Long {
     val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
 
-    return LocalDateTime.parse(this, dateTimeFormatter).toEpochSecond(ZoneOffset.UTC)
+    return LocalDateTime.parse(this, dateTimeFormatter).toLong()
 }
 
 fun Bitmap.toEscBytes() = EscBitmapHelper.getBytes(this)
