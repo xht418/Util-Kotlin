@@ -7,27 +7,27 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 object DateTimeHelper {
-    fun getNowLong() = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+    fun getNowLong() = LocalDateTime.now().toLong()
 
     fun getNowString(dateTimeFormat: String) = getNowLong().toDateTimeString(dateTimeFormat)
 
-    fun getTodayStartLong() = LocalDateTime.now().with(LocalTime.MIN).toEpochSecond(ZoneOffset.UTC)
+    fun getTodayStartLong() = LocalDateTime.now().with(LocalTime.MIN).toLong()
 
-    fun getTodayEndLong() = LocalDateTime.now().with(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC)
+    fun getTodayEndLong() = LocalDateTime.now().with(LocalTime.MAX).toLong()
 
-    fun getFutureDaysStartLong(dayCount: Long) = LocalDateTime.now().plusDays(dayCount).with(LocalTime.MIN).toEpochSecond(ZoneOffset.UTC)
+    fun getFutureDaysStartLong(dayCount: Long) = LocalDateTime.now().plusDays(dayCount).with(LocalTime.MIN).toLong()
 
-    fun getFutureDaysEndLong(dayCount: Long) = LocalDateTime.now().plusDays(dayCount).with(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC)
+    fun getFutureDaysEndLong(dayCount: Long) = LocalDateTime.now().plusDays(dayCount).with(LocalTime.MAX).toLong()
 
-    fun getPastDaysStartLong(dayCount: Long) = LocalDateTime.now().minusDays(dayCount).with(LocalTime.MIN).toEpochSecond(ZoneOffset.UTC)
+    fun getPastDaysStartLong(dayCount: Long) = LocalDateTime.now().minusDays(dayCount).with(LocalTime.MIN).toLong()
 
-    fun getPastDaysEndLong(dayCount: Long) = LocalDateTime.now().minusDays(dayCount).with(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC)
+    fun getPastDaysEndLong(dayCount: Long) = LocalDateTime.now().minusDays(dayCount).with(LocalTime.MAX).toLong()
 
     fun getTodayByTimeLong(hour: Int, minute: Int): Long {
         val formattedHour = hour.toDigit(2)
         val formattedMinute = minute.toDigit(2)
 
-        return LocalDateTime.of(LocalDate.now(), LocalTime.parse("$formattedHour:$formattedMinute:00")).toEpochSecond(ZoneOffset.UTC)
+        return LocalDateTime.of(LocalDate.now(), LocalTime.parse("$formattedHour:$formattedMinute:00")).toLong()
     }
 
     fun getFutureDaysString(dateTimeFormat: String, dayCount: Long): String {
