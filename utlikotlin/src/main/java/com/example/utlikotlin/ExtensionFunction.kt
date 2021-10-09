@@ -86,6 +86,8 @@ fun LocalDateTime.toLong() = this.atZone(ZoneId.systemDefault()).toInstant().toE
 
 fun Long.toLocalDateTime() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
 
+fun Long.toUTCLocalDateTime() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.ofOffset("UTC", ZoneOffset.UTC))
+
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
 fun Float.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
@@ -418,12 +420,12 @@ fun Fragment.showTimePicker(titleResId: Int, hour: Int, minute: Int, confirmClic
 fun Fragment.showDatePicker(titleResId: Int, dateLong: Long, confirmClickAction: (Long) -> Unit) {
     val datePicker = MaterialDatePicker.Builder.datePicker().run {
         setTitleText(getString(titleResId))
-        setSelection(dateLong)
+        setSelection(dateLong.toLocalDateTime().atZone(ZoneId.ofOffset("UTC", ZoneOffset.UTC)).toInstant().toEpochMilli())
         build()
     }
 
     datePicker.addOnPositiveButtonClickListener {
-        val pickedDateLong = datePicker.selection!!.toLocalDateTime().plusDays(1).toLong()
+        val pickedDateLong = datePicker.selection!!.toUTCLocalDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
         confirmClickAction(pickedDateLong)
     }
