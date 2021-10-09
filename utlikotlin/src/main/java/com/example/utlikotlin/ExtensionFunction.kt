@@ -44,6 +44,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -414,11 +415,29 @@ fun Fragment.showTimePicker(titleResId: Int, hour: Int, minute: Int, confirmClic
     timePicker.show(childFragmentManager, "")
 }
 
+fun Fragment.showDatePicker(titleResId: Int, dateLong: Long, confirmClickAction: (Long) -> Unit) {
+    val datePicker = MaterialDatePicker.Builder.datePicker().run {
+        setTitleText(getString(titleResId))
+        setSelection(dateLong)
+        build()
+    }
+
+    datePicker.addOnPositiveButtonClickListener {
+        val pickedDateLong = datePicker.selection!!.toLocalDateTime().plusDays(1).toLong()
+
+        confirmClickAction(pickedDateLong)
+    }
+
+    datePicker.show(childFragmentManager, "")
+}
+
 fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
     return (getApplication() as Context).getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 }
 
 fun AndroidViewModel.getAlarmManager() = (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+fun AndroidViewModel.getString(stringResId: Int) = (getApplication() as Context).getString(stringResId)
 
 fun AndroidViewModel.showToast(text: String) = Toast.makeText(getApplication(), text, Toast.LENGTH_SHORT).show()
 
