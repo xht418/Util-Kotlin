@@ -75,6 +75,8 @@ fun Int.toDigit(digit: Int): String {
 
 fun Long.toLocalTime() = this.toLocalDateTime().toLocalTime()
 
+fun Long.toLocalDate() = this.toLocalDateTime().toLocalDate()
+
 fun Long.toDateTimeString(dateTimeFormat: String): String {
     val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
     val localDateTime = this.toLocalDateTime()

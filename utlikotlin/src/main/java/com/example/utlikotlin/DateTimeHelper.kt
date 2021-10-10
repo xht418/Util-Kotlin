@@ -23,6 +23,8 @@ object DateTimeHelper {
 
     fun getPastDaysEndLong(dayCount: Long) = LocalDateTime.now().minusDays(dayCount).with(LocalTime.MAX).toLong()
 
+    fun getDateTimeLong(localDate: LocalDate, localTime: LocalTime) = LocalDateTime.of(localDate, localTime).toLong()
+
     fun getTodayByTimeLong(hour: Int, minute: Int): Long {
         val formattedHour = hour.toDigit(2)
         val formattedMinute = minute.toDigit(2)
