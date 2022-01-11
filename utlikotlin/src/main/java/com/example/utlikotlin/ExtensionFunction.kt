@@ -35,8 +35,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.*
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
@@ -469,7 +468,13 @@ fun AndroidViewModel.getRawUris(arrayResourceId: Int): List<Uri> {
 }
 
 fun <T> StateFlow<T>.collect(coroutineScope: CoroutineScope, action: (T) -> Unit) = coroutineScope.launch {
-    collect { T -> action(T) }
+    collect { action(it) }
+}
+
+fun <T> StateFlow<T>.collect(lifecycleOwner: LifecycleOwner, action: (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
+    lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        collect { action(it) }
+    }
 }
 
 fun <R> Flow<R>.toStateFlow(coroutineScope: CoroutineScope, initialValue: R) = stateIn(coroutineScope, SharingStarted.Lazily, initialValue)
