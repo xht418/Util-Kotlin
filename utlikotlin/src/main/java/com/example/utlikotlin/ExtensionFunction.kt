@@ -467,11 +467,11 @@ fun AndroidViewModel.getRawUris(arrayResourceId: Int): List<Uri> {
     return rawUris
 }
 
-fun <T> StateFlow<T>.collect(coroutineScope: CoroutineScope, action: (T) -> Unit) = coroutineScope.launch {
+fun <T> Flow<T>.collect(coroutineScope: CoroutineScope, action: (T) -> Unit) = coroutineScope.launch {
     collect { action(it) }
 }
 
-fun <T> StateFlow<T>.collect(lifecycleOwner: LifecycleOwner, action: (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
+fun <T> Flow<T>.collect(lifecycleOwner: LifecycleOwner, action: (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
     lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
         collect { action(it) }
     }
