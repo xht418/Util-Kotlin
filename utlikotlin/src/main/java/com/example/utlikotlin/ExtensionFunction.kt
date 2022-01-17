@@ -467,6 +467,10 @@ fun AndroidViewModel.getRawUris(arrayResourceId: Int): List<Uri> {
     return rawUris
 }
 
+fun <T> MutableSharedFlow<T>.emit(coroutineScope: CoroutineScope, value: T) = coroutineScope.launch {
+    emit(value)
+}
+
 fun <T> Flow<T>.collect(coroutineScope: CoroutineScope, action: (T) -> Unit) = coroutineScope.launch {
     collect { action(it) }
 }
