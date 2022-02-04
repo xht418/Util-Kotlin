@@ -139,6 +139,14 @@ fun Uri.toBitmap(context: Context): Bitmap? {
 
 fun <T> List<T>.range(fromIndex: Int, toIndex: Int) = this.subList(fromIndex, toIndex + 1)
 
+fun <T> List<T>.mapButReplace(targetItem: T, newItem: T) = map {
+    if (it == targetItem) {
+        newItem
+    } else {
+        it
+    }
+}
+
 fun View.indexOfParent() = (this.parent as ViewGroup).indexOfChild(this)
 
 fun View.scale(value: Float, duration: Long) {
