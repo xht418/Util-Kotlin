@@ -101,6 +101,13 @@ fun setDivider(recyclerView: RecyclerView, isShowDivider: Boolean) {
     }
 }
 
+@BindingAdapter("enableAnimation")
+fun enableRecyclerViewAnimation(recyclerView: RecyclerView, enableAnimation: Boolean) {
+    if (!enableAnimation) {
+        recyclerView.itemAnimator = null
+    }
+}
+
 @BindingAdapter("loadingStatus", "loadingImage", "errorImage")
 fun setImageResource(imageView: ImageView, loadingStatus: LoadingStatus?, loadingImage: Drawable, errorImage: Drawable) {
     when (loadingStatus) {
