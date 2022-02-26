@@ -180,11 +180,11 @@ fun ViewGroup.getCheckedIndexes(): List<Int> {
     return checkedIndexes
 }
 
-fun CardView.mapColor(arrayResourceId: Int, colorIndex: Int) {
-    val colors = resources.obtainTypedArray(arrayResourceId)
-    val color = this.context.getColor(colors.getResourceId(colorIndex, 0))
+fun CardView.mapColor(arrayResId: Int, colorIndex: Int) {
+    val colors = resources.obtainTypedArray(arrayResId)
+    val color = context.getColor(colors.getResourceId(colorIndex, 0))
 
-    this.setCardBackgroundColor(color)
+    setCardBackgroundColor(color)
 
     colors.recycle()
 }
@@ -243,11 +243,11 @@ fun Fragment.getMapFragmentById(id: Int) = childFragmentManager.findFragmentById
 
 fun Fragment.showToast(text: String) = Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
 
-fun Fragment.showToast(resourceId: Int) = Toast.makeText(requireContext(), resourceId, Toast.LENGTH_SHORT).show()
+fun Fragment.showToast(resId: Int) = Toast.makeText(requireContext(), resId, Toast.LENGTH_SHORT).show()
 
 fun Fragment.showToastLong(text: String) = Toast.makeText(requireContext(), text, Toast.LENGTH_LONG).show()
 
-fun Fragment.showToastLong(resourceId: Int) = Toast.makeText(requireContext(), resourceId, Toast.LENGTH_LONG).show()
+fun Fragment.showToastLong(resId: Int) = Toast.makeText(requireContext(), resId, Toast.LENGTH_LONG).show()
 
 fun Fragment.showSnackbar(text: String) {
     val view = requireActivity().findViewById<View>(android.R.id.content)
@@ -337,11 +337,11 @@ fun Fragment.getImageUri(fileName: String, folderName: String): Uri {
 
 fun Fragment.deleteImage(imageUri: Uri) = requireContext().contentResolver.delete(imageUri, null, null)
 
-fun Fragment.getRawUri(resourceId: Int) = "android.resource://${requireContext().packageName}/$resourceId".toUri()
+fun Fragment.getRawUri(resId: Int) = "android.resource://${requireContext().packageName}/$resId".toUri()
 
-fun Fragment.getRawUris(arrayResourceId: Int): List<Uri> {
+fun Fragment.getRawUris(arrayResId: Int): List<Uri> {
     val rawUris = mutableListOf<Uri>()
-    val raws = requireContext().resources.obtainTypedArray(arrayResourceId)
+    val raws = requireContext().resources.obtainTypedArray(arrayResId)
 
     for (index in 0 until raws.length()) {
         val resourceId = raws.getResourceId(index, 0)
@@ -448,21 +448,21 @@ fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
 
 fun AndroidViewModel.getAlarmManager() = (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-fun AndroidViewModel.getString(stringResId: Int) = (getApplication() as Context).getString(stringResId)
+fun AndroidViewModel.getString(resId: Int) = (getApplication() as Context).getString(resId)
 
 fun AndroidViewModel.showToast(text: String) = Toast.makeText(getApplication(), text, Toast.LENGTH_SHORT).show()
 
-fun AndroidViewModel.showToast(resourceId: Int) = Toast.makeText(getApplication(), resourceId, Toast.LENGTH_SHORT).show()
+fun AndroidViewModel.showToast(resId: Int) = Toast.makeText(getApplication(), resId, Toast.LENGTH_SHORT).show()
 
 fun AndroidViewModel.showToastLong(text: String) = Toast.makeText(getApplication(), text, Toast.LENGTH_LONG).show()
 
-fun AndroidViewModel.showToastLong(resourceId: Int) = Toast.makeText(getApplication(), resourceId, Toast.LENGTH_LONG).show()
+fun AndroidViewModel.showToastLong(resId: Int) = Toast.makeText(getApplication(), resId, Toast.LENGTH_LONG).show()
 
-fun AndroidViewModel.getRawUri(resourceId: Int) = "android.resource://${(getApplication() as Context).packageName}/$resourceId".toUri()
+fun AndroidViewModel.getRawUri(resId: Int) = "android.resource://${(getApplication() as Context).packageName}/$resId".toUri()
 
-fun AndroidViewModel.getRawUris(arrayResourceId: Int): List<Uri> {
+fun AndroidViewModel.getRawUris(arrayResId: Int): List<Uri> {
     val rawUris = mutableListOf<Uri>()
-    val raws = (getApplication() as Context).resources.obtainTypedArray(arrayResourceId)
+    val raws = (getApplication() as Context).resources.obtainTypedArray(arrayResId)
 
     for (index in 0 until raws.length()) {
         val resourceId = raws.getResourceId(index, 0)
