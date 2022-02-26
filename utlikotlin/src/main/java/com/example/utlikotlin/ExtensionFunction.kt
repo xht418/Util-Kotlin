@@ -32,6 +32,7 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
@@ -52,6 +53,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
+import java.io.File
 import java.io.OutputStream
 import java.nio.charset.Charset
 import java.time.Instant
@@ -323,6 +325,34 @@ fun Fragment.openApp(packageName: String) {
     val intent = requireContext().packageManager.getLaunchIntentForPackage(packageName)
 
     startActivity(intent)
+}
+
+fun Fragment.openAssetsFile(applicationId: String, displayName: String, extension: String) {
+    val file = getAssetsFile("$displayName.$extension")
+    val fileUri = FileProvider.getUriForFile(requireContext(), "$applicationId.provider", file)
+
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        type = "application/$extension"
+        data = fileUri
+
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+
+    startActivity(intent)
+}
+
+fun Fragment.getAssetsFile(fileName: String): File {
+    val file = File(requireContext().filesDir, fileName)
+
+    if (!file.exists()) {
+        file.outputStream().use { outputStream ->
+            requireContext().assets.open(fileName).use { inputStream ->
+                inputStream.copyTo(outputStream)
+            }
+        }
+    }
+
+    return file
 }
 
 fun Fragment.getImageUri(fileName: String, folderName: String): Uri {
