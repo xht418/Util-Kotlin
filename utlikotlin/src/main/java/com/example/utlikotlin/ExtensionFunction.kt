@@ -327,12 +327,12 @@ fun Fragment.openApp(packageName: String) {
     startActivity(intent)
 }
 
-fun Fragment.openAssetsFile(applicationId: String, displayName: String, extension: String) {
-    val file = getAssetsFile("$displayName.$extension")
+fun Fragment.openAssetsFile(applicationId: String, fileName: String) {
+    val file = getAssetsFile(fileName)
     val fileUri = FileProvider.getUriForFile(requireContext(), "$applicationId.provider", file)
 
     val intent = Intent(Intent.ACTION_VIEW).apply {
-        type = "application/$extension"
+        type = "application/${file.extension}"
         data = fileUri
 
         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
