@@ -27,6 +27,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import androidx.appcompat.app.AppCompatActivity
@@ -470,6 +471,10 @@ fun Fragment.showDatePicker(titleResId: Int, dateLong: Long, confirmClickAction:
     }
 
     datePicker.show(childFragmentManager, "")
+}
+
+fun Fragment.finishOnBackPressed() = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+    requireActivity().finish()
 }
 
 fun LifecycleOwner.isConfigChanging() = (this as Fragment).requireActivity().isChangingConfigurations
