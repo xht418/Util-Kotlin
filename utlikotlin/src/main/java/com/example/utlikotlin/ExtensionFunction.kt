@@ -477,6 +477,14 @@ fun Fragment.finishOnBackPressed() = requireActivity().onBackPressedDispatcher.a
     requireActivity().finish()
 }
 
+fun Fragment.goHomeOnBackPressed() = requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+    val intent = Intent(Intent.ACTION_MAIN).apply {
+        addCategory(Intent.CATEGORY_HOME)
+    }
+
+    startActivity(intent)
+}
+
 fun LifecycleOwner.isConfigChanging() = (this as Fragment).requireActivity().isChangingConfigurations
 
 fun Intent.isResolvable(context: Context) = resolveActivity(context.packageManager) != null
