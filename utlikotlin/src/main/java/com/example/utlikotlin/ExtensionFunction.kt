@@ -231,9 +231,9 @@ fun Context.closeNotificationPanel() {
 
 fun AppCompatActivity.getNavHostFragmentById(id: Int) = supportFragmentManager.findFragmentById(id) as NavHostFragment
 
-fun LifecycleOwner.isConfigChanging() = (this as Fragment).requireActivity().isChangingConfigurations
+fun AppCompatActivity.hideActionBar() = supportActionBar?.hide()
 
-fun Intent.isResolvable(context: Context) = resolveActivity(context.packageManager) != null
+fun Fragment.hideUpButton() = (requireActivity() as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
 
 fun Fragment.getConnectivityManager() = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -471,6 +471,10 @@ fun Fragment.showDatePicker(titleResId: Int, dateLong: Long, confirmClickAction:
 
     datePicker.show(childFragmentManager, "")
 }
+
+fun LifecycleOwner.isConfigChanging() = (this as Fragment).requireActivity().isChangingConfigurations
+
+fun Intent.isResolvable(context: Context) = resolveActivity(context.packageManager) != null
 
 fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
     return (getApplication() as Context).getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
