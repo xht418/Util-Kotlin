@@ -328,6 +328,23 @@ fun Fragment.openApp(packageName: String) {
     startActivity(intent)
 }
 
+fun Fragment.showAppOnPlayStore(packageName: String) {
+    val uri = "https://play.google.com/store/apps/details?id=$packageName".toUri()
+
+    val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+        setPackage("com.android.vending")
+    }
+
+    startActivity(intent)
+}
+
+fun Fragment.showAppOnAppStore(packageName: String) {
+    val uri = "market://details?id=$packageName".toUri()
+    val intent = Intent(Intent.ACTION_VIEW, uri)
+
+    startActivity(intent)
+}
+
 fun Fragment.openAssetsFile(fileName: String) {
     val file = getAssetsFile(fileName)
     val fileUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", file)
