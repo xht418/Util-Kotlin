@@ -114,6 +114,8 @@ fun String.toDateTimeLong(dateTimeFormat: String): Long {
     return LocalDateTime.parse(this, dateTimeFormatter).toLong()
 }
 
+fun String.withoutDots() = this.split('.').joinToString("")
+
 fun Bitmap.toEscBytes() = EscBitmapHelper.getBytes(this)
 
 fun OutputStream.write(text: String) = this.write(text.toBytes())
