@@ -1,6 +1,7 @@
 package com.example.utlikotlin
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -33,6 +34,33 @@ object DataStore {
     fun getString(context: Context, keyResId: Int, defaultValueResId: Int): String {
         val key = stringPreferencesKey(context.getString(keyResId))
         val defaultValue = context.getString(defaultValueResId)
+
+        return runBlocking {
+            context.settings.data.first()[key] ?: defaultValue
+        }
+    }
+
+    /*Boolean*/
+    suspend fun saveBoolean(context: Context, keyResId: Int, value: Boolean) {
+        val key = booleanPreferencesKey(context.getString(keyResId))
+
+        context.settings.edit {
+            it[key] = value
+        }
+    }
+
+    fun getBooleanFlow(context: Context, keyResId: Int, defaultValueResId: Int): Flow<Boolean> {
+        val key = booleanPreferencesKey(context.getString(keyResId))
+        val defaultValue = context.resources.getBoolean(defaultValueResId)
+
+        return context.settings.data.map {
+            it[key] ?: defaultValue
+        }
+    }
+
+    fun getBoolean(context: Context, keyResId: Int, defaultValueResId: Int): Boolean {
+        val key = booleanPreferencesKey(context.getString(keyResId))
+        val defaultValue = context.resources.getBoolean(defaultValueResId)
 
         return runBlocking {
             context.settings.data.first()[key] ?: defaultValue
