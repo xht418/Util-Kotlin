@@ -30,6 +30,7 @@ import android.widget.*
 import androidx.activity.addCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -113,8 +114,6 @@ fun String.toDateTimeLong(dateTimeFormat: String): Long {
 
     return LocalDateTime.parse(this, dateTimeFormatter).toLong()
 }
-
-fun String.withoutDots() = this.split('.').joinToString("")
 
 fun Bitmap.toEscBytes() = EscBitmapHelper.getBytes(this)
 
@@ -218,6 +217,12 @@ fun TextInputEditText.focusOnLast() {
     requestFocus()
 
     setSelection(text.toString().length)
+}
+
+fun AlertDialog.showIfNotShowing() {
+    if (!isShowing) {
+        show()
+    }
 }
 
 fun Context.getConnectivityManager() = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
