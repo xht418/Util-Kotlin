@@ -521,6 +521,8 @@ fun AndroidViewModel.getAlarmManager() = (getApplication() as Context).getSystem
 
 fun AndroidViewModel.getString(resId: Int) = (getApplication() as Context).getString(resId)
 
+fun AndroidViewModel.getString(resId: Int, vararg formatArgs: Any) = (getApplication() as Context).getString(resId, *formatArgs)
+
 fun AndroidViewModel.showToast(text: String) = Toast.makeText(getApplication(), text, Toast.LENGTH_SHORT).show()
 
 fun AndroidViewModel.showToast(resId: Int) = Toast.makeText(getApplication(), resId, Toast.LENGTH_SHORT).show()
