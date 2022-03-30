@@ -556,7 +556,13 @@ fun <T> Flow<T>.collect(coroutineScope: CoroutineScope, action: (T) -> Unit) = c
     collect { action(it) }
 }
 
-fun <T> Flow<T>.collect(lifecycleOwner: LifecycleOwner, action: (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
+fun <T> Flow<T>.collectOnCreated(lifecycleOwner: LifecycleOwner, action: (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
+    lifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+        collect { action(it) }
+    }
+}
+
+fun <T> Flow<T>.collectOnStarted(lifecycleOwner: LifecycleOwner, action: (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
     lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
         collect { action(it) }
     }
