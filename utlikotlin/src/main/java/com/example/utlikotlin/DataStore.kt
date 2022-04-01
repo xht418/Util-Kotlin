@@ -3,6 +3,7 @@ package com.example.utlikotlin
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -61,6 +62,33 @@ object DataStore {
     fun getBoolean(context: Context, keyResId: Int, defaultValueResId: Int): Boolean {
         val key = booleanPreferencesKey(context.getString(keyResId))
         val defaultValue = context.resources.getBoolean(defaultValueResId)
+
+        return runBlocking {
+            context.settings.data.first()[key] ?: defaultValue
+        }
+    }
+
+    /*Int*/
+    suspend fun saveInt(context: Context, keyResId: Int, value: Int) {
+        val key = intPreferencesKey(context.getString(keyResId))
+
+        context.settings.edit {
+            it[key] = value
+        }
+    }
+
+    fun getIntFlow(context: Context, keyResId: Int, defaultValueResId: Int): Flow<Int> {
+        val key = intPreferencesKey(context.getString(keyResId))
+        val defaultValue = context.resources.getInteger(defaultValueResId)
+
+        return context.settings.data.map {
+            it[key] ?: defaultValue
+        }
+    }
+
+    fun getInt(context: Context, keyResId: Int, defaultValueResId: Int): Int {
+        val key = intPreferencesKey(context.getString(keyResId))
+        val defaultValue = context.resources.getInteger(defaultValueResId)
 
         return runBlocking {
             context.settings.data.first()[key] ?: defaultValue
