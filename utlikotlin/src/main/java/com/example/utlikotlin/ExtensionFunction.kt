@@ -40,6 +40,7 @@ import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.navigation.fragment.NavHostFragment
+import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
@@ -182,6 +183,12 @@ fun ViewGroup.getCheckedIndexes(): List<Int> {
     }
 
     return checkedIndexes
+}
+
+fun ImageView.load(url: String) {
+    val uri = url.toUri().buildUpon().scheme("https").build()
+
+    Glide.with(context).load(uri).into(this)
 }
 
 fun CardView.mapColor(arrayResId: Int, colorIndex: Int) {
