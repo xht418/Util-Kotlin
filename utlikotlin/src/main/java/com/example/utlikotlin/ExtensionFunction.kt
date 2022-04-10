@@ -59,10 +59,7 @@ import okhttp3.MediaType
 import java.io.File
 import java.io.OutputStream
 import java.nio.charset.Charset
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
+import java.time.*
 import java.time.format.DateTimeFormatter
 
 fun Int.dp(context: Context) = this * context.resources.displayMetrics.density
@@ -93,6 +90,13 @@ fun LocalDateTime.toUtcMillis() = this.atZone(ZoneId.systemDefault()).toInstant(
 fun Long.toLocalDateTime() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
 
 fun Long.toUTCLocalDateTime() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.ofOffset("UTC", ZoneOffset.UTC))
+
+fun Long.toFormattedString(format: String): String {
+    val utcDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.ofOffset("UTC", ZoneOffset.UTC))
+    val systemDateTime = utcDateTime.withZoneSameInstant(ZoneId.systemDefault())
+
+    return systemDateTime.format(DateTimeFormatter.ofPattern(format))
+}
 
 fun Double.roundDecimal(digit: Int) = "%,.${digit}f".format(this)
 
