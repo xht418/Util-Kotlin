@@ -88,7 +88,7 @@ fun Long.toDateTimeString(dateTimeFormat: String): String {
     return localDateTime.format(dateTimeFormatter)
 }
 
-fun LocalDateTime.toSystemMillis() = this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+fun LocalDateTime.toUtcMillis() = this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
 fun Long.toLocalDateTime() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
 
@@ -113,7 +113,7 @@ fun String.toDecryptedString() = Base64.decode(this, Base64.NO_PADDING).decodeTo
 fun String.toDateTimeLong(dateTimeFormat: String): Long {
     val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
 
-    return LocalDateTime.parse(this, dateTimeFormatter).toSystemMillis()
+    return LocalDateTime.parse(this, dateTimeFormatter).toUtcMillis()
 }
 
 fun Bitmap.toEscBytes() = EscBitmapHelper.getBytes(this)
