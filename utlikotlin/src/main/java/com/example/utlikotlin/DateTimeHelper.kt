@@ -6,9 +6,9 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 object DateTimeHelper {
-    fun getNowLong() = LocalDateTime.now().toSystemMillis()
+    fun nowInSystemMillis() = LocalDateTime.now().toSystemMillis()
 
-    fun getNowString(dateTimeFormat: String) = getNowLong().toDateTimeString(dateTimeFormat)
+    fun getNowString(dateTimeFormat: String) = nowInSystemMillis().toDateTimeString(dateTimeFormat)
 
     fun getTodayStartLong() = LocalDateTime.now().with(LocalTime.MIN).toSystemMillis()
 
