@@ -563,17 +563,17 @@ fun <T> MutableSharedFlow<T>.emit(coroutineScope: CoroutineScope, value: T) = co
     emit(value)
 }
 
-fun <T> Flow<T>.collect(coroutineScope: CoroutineScope, action: (T) -> Unit) = coroutineScope.launch {
+fun <T> Flow<T>.collect(coroutineScope: CoroutineScope, action: suspend (T) -> Unit) = coroutineScope.launch {
     collect { action(it) }
 }
 
-fun <T> Flow<T>.collectOnCreated(lifecycleOwner: LifecycleOwner, action: (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
+fun <T> Flow<T>.collectOnCreated(lifecycleOwner: LifecycleOwner, action: suspend (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
     lifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
         collect { action(it) }
     }
 }
 
-fun <T> Flow<T>.collectOnStarted(lifecycleOwner: LifecycleOwner, action: (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
+fun <T> Flow<T>.collectOnStarted(lifecycleOwner: LifecycleOwner, action: suspend (T) -> Unit) = lifecycleOwner.lifecycleScope.launch {
     lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
         collect { action(it) }
     }
