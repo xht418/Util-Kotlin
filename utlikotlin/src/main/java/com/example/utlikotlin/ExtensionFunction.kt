@@ -40,6 +40,7 @@ import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
@@ -188,6 +189,10 @@ fun ViewGroup.getCheckedIndexes(): List<Int> {
 
     return checkedIndexes
 }
+
+fun RecyclerView.smoothScrollToTop() = smoothScrollToPosition(0)
+
+fun RecyclerView.scrollToTop() = scrollToPosition(0)
 
 fun ImageView.load(url: String) {
     val uri = url.toUri().buildUpon().scheme("https").build()
