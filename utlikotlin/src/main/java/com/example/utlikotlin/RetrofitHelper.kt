@@ -6,7 +6,10 @@ import retrofit2.Retrofit
 
 object RetrofitHelper {
     private val contentType = "application/json".toMediaType()
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json = Json {
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+    }
 
     private fun getRetrofit(baseUrl: String) = Retrofit.Builder().run {
         addConverterFactory(json.asConverterFactory(contentType))
