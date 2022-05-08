@@ -200,6 +200,8 @@ fun ImageView.load(url: String) {
     Glide.with(context).load(uri).into(this)
 }
 
+fun ImageView.load(uri: Uri) = Glide.with(context).load(uri).into(this)
+
 fun CardView.mapColor(arrayResId: Int, colorIndex: Int) {
     val colors = resources.obtainTypedArray(arrayResId)
     val color = context.getColor(colors.getResourceId(colorIndex, 0))
