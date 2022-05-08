@@ -205,5 +205,5 @@ fun setEmptyIfZeroDouble(editText: EditText, number: Double) {
 fun getEmptyIfZeroDouble(editText: EditText): Double {
     val text = editText.text.toString()
 
-    return if (text.isEmpty()) 0.0 else text.toDouble()
+    return if (text.isEmpty() || text == ".") 0.0 else text.toDouble()
 }
