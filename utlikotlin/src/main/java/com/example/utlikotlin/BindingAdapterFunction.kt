@@ -193,3 +193,13 @@ fun setUrl(webView: WebView, url: String) = webView.apply {
 
     loadUrl(url)
 }
+
+@BindingAdapter("emptyIfZeroDouble")
+fun setEmptyIfZeroDouble(editText: EditText, number: Double) {
+    val text = if (number == 0.0) "" else number.toString()
+
+    editText.setText(text)
+}
+
+@InverseBindingAdapter(attribute = "emptyIfZeroDouble", event = "android:textAttrChanged")
+fun getEmptyIfZeroDouble(editText: EditText) = editText.text.toString().toDouble()
