@@ -202,4 +202,8 @@ fun setEmptyIfZeroDouble(editText: EditText, number: Double) {
 }
 
 @InverseBindingAdapter(attribute = "emptyIfZeroDouble", event = "android:textAttrChanged")
-fun getEmptyIfZeroDouble(editText: EditText) = editText.text.toString().toDouble()
+fun getEmptyIfZeroDouble(editText: EditText): Double {
+    val text = editText.text.toString()
+
+    return if (text.isEmpty()) 0.0 else text.toDouble()
+}
