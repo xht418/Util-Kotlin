@@ -207,3 +207,13 @@ fun getEmptyIfZeroDouble(editText: EditText): Double {
 
     return if (text.isEmpty() || text == ".") 0.0 else text.toDouble()
 }
+
+@BindingAdapter("data", "id")
+fun setData(autoCompleteTextView: AutoCompleteTextView, items: List<DropdownItem>, id: Long) {
+    val text = items.find { it.id == id }!!.value
+    val words = items.map { it.value }
+    val adapter = ArrayAdapter(autoCompleteTextView.context, android.R.layout.simple_dropdown_item_1line, words)
+
+    autoCompleteTextView.setText(text)
+    autoCompleteTextView.setAdapter(adapter)
+}
