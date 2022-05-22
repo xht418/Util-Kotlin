@@ -75,22 +75,15 @@ fun Int.toDigit(digit: Int): String {
     return num
 }
 
-fun Long.toLocalTime() = this.toLocalDateTime().toLocalTime()
+fun Long.toUtcLocalTime() = this.toUtcLocalDateTime().toLocalTime()
 
-fun Long.toLocalDate() = this.toLocalDateTime().toLocalDate()
-
-fun Long.toDateTimeString(dateTimeFormat: String): String {
-    val dateTimeFormatter = DateTimeFormatter.ofPattern(dateTimeFormat)
-    val localDateTime = this.toLocalDateTime()
-
-    return localDateTime.format(dateTimeFormatter)
-}
+fun Long.toUtcLocalDate() = this.toUtcLocalDateTime().toLocalDate()
 
 fun LocalDateTime.toUtcMillis() = this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
-fun Long.toLocalDateTime() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
+fun Long.toSystemLocalDateTime() = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault()).toLocalDateTime()
 
-fun Long.toUTCLocalDateTime() = LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.ofOffset("UTC", ZoneOffset.UTC))
+fun Long.toUtcLocalDateTime() = Instant.ofEpochMilli(this).atZone(ZoneId.of("UTC")).toLocalDateTime()
 
 fun Long.toFormattedString(format: String): String {
     val utcDateTime = Instant.ofEpochMilli(this).atZone(ZoneId.of("UTC"))
@@ -499,17 +492,17 @@ fun Fragment.showTimePicker(titleResId: Int, hour: Int, minute: Int, confirmClic
     timePicker.show(childFragmentManager, "")
 }
 
-fun Fragment.showDatePicker(titleResId: Int, dateLong: Long, confirmClickAction: (Long) -> Unit) {
+fun Fragment.showDatePicker(titleResId: Int, dateInUtcMillis: Long, confirmClickAction: (Long) -> Unit) {
     val datePicker = MaterialDatePicker.Builder.datePicker().run {
         setTitleText(getString(titleResId))
-        setSelection(dateLong.toLocalDateTime().atZone(ZoneId.ofOffset("UTC", ZoneOffset.UTC)).toInstant().toEpochMilli())
+        setSelection(dateInUtcMillis.toSystemLocalDateTime().atZone(ZoneId.of("UTC")).toInstant().toEpochMilli())
         build()
     }
 
     datePicker.addOnPositiveButtonClickListener {
-        val pickedDateLong = datePicker.selection!!.toUTCLocalDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val pickedDateInUtcMillis = datePicker.selection!!.toUtcLocalDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
-        confirmClickAction(pickedDateLong)
+        confirmClickAction(pickedDateInUtcMillis)
     }
 
     datePicker.show(childFragmentManager, "")

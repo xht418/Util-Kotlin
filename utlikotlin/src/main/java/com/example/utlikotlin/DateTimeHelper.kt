@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter
 object DateTimeHelper {
     fun nowInUtcMillis() = LocalDateTime.now().toUtcMillis()
 
-    fun getNowString(dateTimeFormat: String) = nowInUtcMillis().toDateTimeString(dateTimeFormat)
+    fun nowInFormattedString(format: String) = nowInUtcMillis().toFormattedString(format)
 
     fun getTodayStartLong() = LocalDateTime.now().with(LocalTime.MIN).toUtcMillis()
 
