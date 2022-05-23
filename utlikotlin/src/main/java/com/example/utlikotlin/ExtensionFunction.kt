@@ -86,8 +86,7 @@ fun Long.toSystemLocalDateTime() = Instant.ofEpochMilli(this).atZone(ZoneId.syst
 fun Long.toUtcLocalDateTime() = Instant.ofEpochMilli(this).atZone(ZoneId.of("UTC")).toLocalDateTime()
 
 fun Long.toFormattedString(format: String): String {
-    val utcDateTime = Instant.ofEpochMilli(this).atZone(ZoneId.of("UTC"))
-    val systemDateTime = utcDateTime.withZoneSameInstant(ZoneId.systemDefault())
+    val systemDateTime = Instant.ofEpochMilli(this).atZone(ZoneId.systemDefault())
 
     return systemDateTime.format(DateTimeFormatter.ofPattern(format))
 }
