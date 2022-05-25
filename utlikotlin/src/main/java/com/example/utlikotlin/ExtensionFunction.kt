@@ -75,9 +75,9 @@ fun Int.toDigit(digit: Int): String {
     return num
 }
 
-fun Long.toUtcLocalTime() = this.toUtcLocalDateTime().toLocalTime()
+fun Long.toSystemLocalTime() = this.toSystemLocalDateTime().toLocalTime()
 
-fun Long.toUtcLocalDate() = this.toUtcLocalDateTime().toLocalDate()
+fun Long.toSystemLocalDate() = this.toSystemLocalDateTime().toLocalDate()
 
 fun LocalDateTime.toSystemMillis() = this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
