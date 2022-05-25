@@ -491,17 +491,17 @@ fun Fragment.showTimePicker(titleResId: Int, hour: Int, minute: Int, confirmClic
     timePicker.show(childFragmentManager, "")
 }
 
-fun Fragment.showDatePicker(titleResId: Int, dateInUtcMillis: Long, confirmClickAction: (Long) -> Unit) {
+fun Fragment.showDatePicker(titleResId: Int, dateInSystemMillis: Long, confirmClickAction: (Long) -> Unit) {
     val datePicker = MaterialDatePicker.Builder.datePicker().run {
         setTitleText(getString(titleResId))
-        setSelection(dateInUtcMillis.toSystemLocalDateTime().atZone(ZoneId.of("UTC")).toInstant().toEpochMilli())
+        setSelection(dateInSystemMillis.toSystemLocalDateTime().atZone(ZoneId.of("UTC")).toInstant().toEpochMilli())
         build()
     }
 
     datePicker.addOnPositiveButtonClickListener {
-        val pickedDateInUtcMillis = datePicker.selection!!.toUtcLocalDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val pickedDateInSystemMillis = datePicker.selection!!.toUtcLocalDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
-        confirmClickAction(pickedDateInUtcMillis)
+        confirmClickAction(pickedDateInSystemMillis)
     }
 
     datePicker.show(childFragmentManager, "")
