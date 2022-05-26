@@ -475,17 +475,23 @@ fun Fragment.setActionBar(toolbar: MaterialToolbar) {
     }
 }
 
-fun Fragment.showTimePicker(titleResId: Int, hour: Int, minute: Int, confirmClickAction: (Int, Int) -> Unit) {
+fun Fragment.showTimePicker(titleResId: Int, timeInSystemMillis: Long, confirmClickAction: (Long) -> Unit) {
+    val systemLocalTime = timeInSystemMillis.toSystemLocalTime()
+
     val timePicker = MaterialTimePicker.Builder().run {
         setTimeFormat(TimeFormat.CLOCK_12H)
         setTitleText(getString(titleResId))
-        setHour(hour)
-        setMinute(minute)
+        setHour(systemLocalTime.hour)
+        setMinute(systemLocalTime.minute)
         build()
     }
 
     timePicker.addOnPositiveButtonClickListener {
-        confirmClickAction(timePicker.hour, timePicker.minute)
+        val localDate = timeInSystemMillis.toSystemLocalDate()
+        val localTime = LocalTime.of(timePicker.hour, timePicker.minute)
+        val localDateTime = LocalDateTime.of(localDate, localTime)
+
+        confirmClickAction(localDateTime.toSystemMillis())
     }
 
     timePicker.show(childFragmentManager, "")
