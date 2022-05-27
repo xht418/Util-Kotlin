@@ -506,8 +506,11 @@ fun Fragment.showDatePicker(titleResId: Int, dateInSystemMillis: Long, confirmCl
 
     datePicker.addOnPositiveButtonClickListener {
         val pickedDateInSystemMillis = datePicker.selection!!.toUtcLocalDateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+        val localDate = pickedDateInSystemMillis.toSystemLocalDate()
+        val localTime = dateInSystemMillis.toSystemLocalTime()
+        val localDateTime = LocalDateTime.of(localDate, localTime)
 
-        confirmClickAction(pickedDateInSystemMillis)
+        confirmClickAction(localDateTime.toSystemMillis())
     }
 
     datePicker.show(childFragmentManager, "")
