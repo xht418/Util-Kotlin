@@ -539,6 +539,8 @@ fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
 
 fun AndroidViewModel.getAlarmManager() = (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
+fun AndroidViewModel.getInteger(resId: Int) = (getApplication() as Context).resources.getInteger(resId)
+
 fun AndroidViewModel.getString(resId: Int) = (getApplication() as Context).getString(resId)
 
 fun AndroidViewModel.getString(resId: Int, vararg formatArgs: Any) = (getApplication() as Context).getString(resId, *formatArgs)
