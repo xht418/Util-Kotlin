@@ -1,6 +1,7 @@
 package com.example.utlikotlin
 
 import android.content.res.TypedArray
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
@@ -34,6 +35,11 @@ fun getText(editText: EditText) = editText.text.toString().trim()
 @BindingAdapter("imageIndex", "images")
 fun setImageResource(imageView: ImageView, imageIndex: Int, images: TypedArray) {
     imageView.setImageResource(images.getResourceId(imageIndex, 0))
+}
+
+@BindingAdapter("bitmap")
+fun setImageBitmap(imageView: ImageView, bitmap: Bitmap) {
+    imageView.setImageBitmap(bitmap)
 }
 
 @BindingAdapter("wordIndex", "words")

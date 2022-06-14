@@ -58,6 +58,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import java.io.File
+import java.io.InputStream
 import java.io.OutputStream
 import java.nio.charset.Charset
 import java.time.*
@@ -120,6 +121,8 @@ fun OutputStream.write(text: String) = this.write(text.toBytes())
 fun OutputStream.writeln(text: String) = this.write("$text\n".toBytes())
 
 fun OutputStream.write(bitmap: Bitmap) = this.write(bitmap.toEscBytes())
+
+fun InputStream.toBitmap() = BitmapFactory.decodeStream(this)
 
 fun Uri.toBitmap(context: Context): Bitmap? {
     val bitmap: Bitmap
@@ -536,6 +539,8 @@ fun Intent.isResolvable(context: Context) = resolveActivity(context.packageManag
 fun AndroidViewModel.getConnectivityManager(): ConnectivityManager {
     return (getApplication() as Context).getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 }
+
+fun AndroidViewModel.getAssets() = (getApplication() as Context).assets
 
 fun AndroidViewModel.getAlarmManager() = (getApplication() as Context).getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
