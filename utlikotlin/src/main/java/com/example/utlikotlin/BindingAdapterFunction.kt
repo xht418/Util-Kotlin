@@ -130,6 +130,8 @@ fun setImageResource(imageView: ImageView, loadingStatus: LoadingStatus?, loadin
         LoadingStatus.DONE -> {
             imageView.visibility = View.GONE
         }
+
+        else -> throw IllegalStateException()
     }
 }
 
@@ -212,6 +214,20 @@ fun getEmptyIfZeroDouble(editText: EditText): Double {
     val text = editText.text.toString()
 
     return if (text.isEmpty() || text == ".") 0.0 else text.toDouble()
+}
+
+@BindingAdapter("emptyIfZeroInt")
+fun setEmptyIfZeroInt(editText: EditText, number: Int) {
+    val text = if (number == 0) "" else number.toString()
+
+    editText.setText(text)
+}
+
+@InverseBindingAdapter(attribute = "emptyIfZeroInt", event = "android:textAttrChanged")
+fun getEmptyIfZeroInt(editText: EditText): Int {
+    val text = editText.text.toString()
+
+    return if (text.isEmpty()) 0 else text.toInt()
 }
 
 @BindingAdapter("data", "id")
