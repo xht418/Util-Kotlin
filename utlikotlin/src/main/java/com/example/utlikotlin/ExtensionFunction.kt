@@ -534,13 +534,13 @@ fun Fragment.goHomeOnBackPressed() = requireActivity().onBackPressedDispatcher.a
     startActivity(intent)
 }
 
-private fun Fragment.getStatusBarHeight(): Int {
+fun Fragment.getStatusBarHeight(): Int {
     val statusBarHeight = resources.getIdentifier("status_bar_height", "dimen", "android")
 
     return resources.getDimensionPixelSize(statusBarHeight)
 }
 
-private fun Fragment.getActionBarHeight(): Int {
+fun Fragment.getActionBarHeight(): Int {
     val typeValue = TypedValue()
 
     requireContext().theme.resolveAttribute(android.R.attr.actionBarSize, typeValue, true)
@@ -548,7 +548,7 @@ private fun Fragment.getActionBarHeight(): Int {
     return TypedValue.complexToDimensionPixelSize(typeValue.data, resources.displayMetrics)
 }
 
-private fun Fragment.getTabLayoutHeight(resId: Int): Int {
+fun Fragment.getTabLayoutHeight(resId: Int): Int {
     val tabLayout = parentFragment!!.view!!.findViewById(resId) as TabLayout
 
     return tabLayout.height
