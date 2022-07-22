@@ -23,6 +23,7 @@ import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.util.Patterns
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -50,6 +51,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -530,6 +532,26 @@ fun Fragment.goHomeOnBackPressed() = requireActivity().onBackPressedDispatcher.a
     }
 
     startActivity(intent)
+}
+
+private fun Fragment.getStatusBarHeight(): Int {
+    val statusBarHeight = resources.getIdentifier("status_bar_height", "dimen", "android")
+
+    return resources.getDimensionPixelSize(statusBarHeight)
+}
+
+private fun Fragment.getActionBarHeight(): Int {
+    val typeValue = TypedValue()
+
+    requireContext().theme.resolveAttribute(android.R.attr.actionBarSize, typeValue, true)
+
+    return TypedValue.complexToDimensionPixelSize(typeValue.data, resources.displayMetrics)
+}
+
+private fun Fragment.getTabLayoutHeight(resId: Int): Int {
+    val tabLayout = parentFragment!!.view!!.findViewById(resId) as TabLayout
+
+    return tabLayout.height
 }
 
 fun LifecycleOwner.isConfigChanging() = (this as Fragment).requireActivity().isChangingConfigurations
