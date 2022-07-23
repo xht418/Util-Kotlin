@@ -199,6 +199,22 @@ fun ImageView.load(url: String) {
 
 fun ImageView.load(uri: Uri) = Glide.with(context).load(uri).into(this)
 
+fun ImageView.copy(xOffset: Int, yOffSet: Int): ImageView {
+    val currentImageView = this
+    val newImageView = ImageView(context).apply {
+        layoutParams = ViewGroup.LayoutParams(currentImageView.width, currentImageView.height)
+
+        val position = IntArray(2)
+        currentImageView.getLocationOnScreen(position)
+        x = position[0].toFloat() - xOffset
+        y = position[1].toFloat() - yOffSet
+
+        setImageDrawable(currentImageView.drawable)
+    }
+
+    return newImageView
+}
+
 fun CardView.mapColor(arrayResId: Int, colorIndex: Int) {
     val colors = resources.obtainTypedArray(arrayResId)
     val color = context.getColor(colors.getResourceId(colorIndex, 0))
