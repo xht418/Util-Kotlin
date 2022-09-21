@@ -20,6 +20,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.style.ClickableSpan
 import android.util.Base64
 import android.util.Log
 import android.util.Patterns
@@ -565,9 +569,24 @@ fun Fragment.getActionBarHeight(): Int {
 }
 
 fun Fragment.getTabLayoutHeight(resId: Int): Int {
-    val tabLayout = parentFragment!!.view!!.findViewById(resId) as TabLayout
+    val tabLayout = parentFragment!!.requireView().findViewById(resId) as TabLayout
 
     return tabLayout.height
+}
+
+fun Fragment.getClickableSpan(colorResId: Int, isUnderLined: Boolean, action: () -> Unit) = object : ClickableSpan() {
+    override fun onClick(p0: View) = action()
+
+    override fun updateDrawState(ds: TextPaint) {
+        super.updateDrawState(ds)
+
+        ds.color = requireContext().getColor(colorResId)
+        ds.isUnderlineText = isUnderLined
+    }
+}
+
+fun Fragment.getSpannableString(stringResId: Int, span: Any, start: Int, end: Int) = SpannableString(getString(stringResId)).apply {
+    setSpan(span, start, end + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 }
 
 fun LifecycleOwner.isConfigChanging() = (this as Fragment).requireActivity().isChangingConfigurations
